@@ -1,0 +1,5 @@
+# python objects
+*.pyc
+
+# energyplus objects
+*.audit
