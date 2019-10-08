@@ -2,7 +2,7 @@
 Functions to call and run EnergyPlus models from python. Functions enable
 parallel processing of idf files i.e. parallel simulations.
 
-@author: Carlos Duarte
+@author: Carlos Duarte <cduarte@berkeley.edu>
 """
 
 
@@ -37,7 +37,7 @@ def save_sim_paths(idffiles, weatherfiles, sim_folder):
     idffiles     = np.array(idffiles)
     weatherfiles = np.array(weatherfiles)
 
-    np.savez(join(sim_folder, 'temp_folder', 'sim_paths'), idffiles=idffiles,
+    np.savez(join(sim_folder, 'sim_paths'), idffiles=idffiles,
                                                            weatherfiles=weatherfiles)
 
 
