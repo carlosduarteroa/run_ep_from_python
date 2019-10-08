@@ -2,6 +2,8 @@
 Functions to call and run EnergyPlus models from python. Functions enable
 parallel processing of idf files i.e. parallel simulations.
 
+Works with python 2.7 and python 3 in both Windows and Linux.
+
 @author: Carlos Duarte <cduarte@berkeley.edu>
 """
 
