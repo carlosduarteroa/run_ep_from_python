@@ -1,0 +1,3478 @@
+!- Linux Line endings 
+
+VERSION,
+    9.1;                      !- Version Identifier
+
+Simulationcontrol,
+    Yes,                      !- Do Zone Sizing Calculation
+    Yes,                      !- Do System Sizing Calculation
+    Yes,                      !- Do Plant Sizing Calculation
+    No,                       !- Run Simulation for Sizing Periods
+    No,                       !- Run Simulation for Weather File Run Periods
+    Yes,                      !- Do HVAC Sizing Simulation for Sizing Periods
+    1;                        !- Maximum Number of HVAC Sizing Simulation Passes
+
+Building,
+    TestShoebox,              !- Name
+    168.2812,                 !- North Axis
+    Country,                  !- Terrain
+    0.04,                     !- Loads Convergence Tolerance Value
+    0.4,                      !- Temperature Convergence Tolerance Value
+    FullInteriorAndExterior,    !- Solar Distribution
+    100,                      !- Maximum Number of Warmup Days
+    8;                        !- Minimum Number of Warmup Days
+
+Timestep,
+    4.0;                      !- Number of Timesteps per Hour
+
+Convergencelimits,
+    5,                        !- Minimum System Timestep
+    25,                       !- Maximum HVAC Iterations
+    3,                        !- Minimum Plant Iterations
+    10;                       !- Maximum Plant Iterations
+
+Site:Location,
+    Seattle Seattle Tacoma Intl A_WA_USA Design_Conditions,    !- Name
+    47.47,                    !- Latitude
+    -122.32,                  !- Longitude
+    -8.0,                     !- Time Zone
+    122.0;                    !- Elevation
+
+SizingPeriod:DesignDay,
+    Seattle Seattle Tacoma Intl A Ann Clg .4% Condns DB=>MWB,    !- Name
+    8,                        !- Month
+    21,                       !- Day of Month
+    SummerDesignDay,          !- Day Type
+    29.4,                     !- Maximum DryBulb Temperature
+    10.4,                     !- Daily DryBulb Temperature Range
+    DefaultMultipliers,       !- DryBulb Temperature Range Modifier Type
+    ,                         !- DryBulb Temperature Range Modifier Day Schedule Name
+    Wetbulb,                  !- Humidity Condition Type
+    18.3,                     !- Wetbulb or DewPoint at Maximum DryBulb
+    ,                         !- Humidity Condition Day Schedule Name
+    ,                         !- Humidity Ratio at Maximum DryBulb
+    ,                         !- Enthalpy at Maximum DryBulb
+    ,                         !- Daily WetBulb Temperature Range
+    99868.0,                  !- Barometric Pressure
+    4.2,                      !- Wind Speed
+    350.0,                    !- Wind Direction
+    No,                       !- Rain Indicator
+    No,                       !- Snow Indicator
+    No,                       !- Daylight Saving Time Indicator
+    ASHRAETau,                !- Solar Model Indicator
+    ,                         !- Beam Solar Day Schedule Name
+    ,                         !- Diffuse Solar Day Schedule Name
+    0.352,                    !- ASHRAE Clear Sky Optical Depth for Beam Irradiance taub
+    2.561;                    !- ASHRAE Clear Sky Optical Depth for Diffuse Irradiance taud
+
+Runperiod,
+    RunPeriod_1,              !- Name
+    1,                        !- Begin Month
+    1,                        !- Begin Day of Month
+    ,                         !- Begin Year
+    12,                       !- End Month
+    31,                       !- End Day of Month
+    ,                         !- End Year
+    Wednesday,                !- Day of Week for Start Day
+    No,                       !- Use Weather File Holidays and Special Days
+    No,                       !- Use Weather File Daylight Saving Period
+    No,                       !- Apply Weekend Holiday Rule
+    Yes,                      !- Use Weather File Rain Indicators
+    Yes,                      !- Use Weather File Snow Indicators
+    No;                       !- Treat Weather as Actual
+
+Site:Groundtemperature:Buildingsurface,
+    20.133,                   !- January Ground Temperature
+    20.114,                   !- February Ground Temperature
+    20.098,                   !- March Ground Temperature
+    20.195,                   !- April Ground Temperature
+    20.555,                   !- May Ground Temperature
+    20.958,                   !- June Ground Temperature
+    22.367,                   !- July Ground Temperature
+    22.7,                     !- August Ground Temperature
+    22.775,                   !- September Ground Temperature
+    21.957,                   !- October Ground Temperature
+    20.592,                   !- November Ground Temperature
+    20.216;                   !- December Ground Temperature
+
+Scheduletypelimits,
+    Temperature,              !- Name
+    -60.0,                    !- Lower Limit Value
+    200.0,                    !- Upper Limit Value
+    Continuous,               !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Scheduletypelimits,
+    Control Type,             !- Name
+    0.0,                      !- Lower Limit Value
+    4.0,                      !- Upper Limit Value
+    Discrete,                 !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Scheduletypelimits,
+    Fraction,                 !- Name
+    0.0,                      !- Lower Limit Value
+    1.0,                      !- Upper Limit Value
+    Continuous,               !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Scheduletypelimits,
+    Any Number,               !- Name
+    ,                         !- Lower Limit Value
+    ,                         !- Upper Limit Value
+    ,                         !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Scheduletypelimits,
+    On/Off,                   !- Name
+    0.0,                      !- Lower Limit Value
+    1.0,                      !- Upper Limit Value
+    Discrete,                 !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Scheduletypelimits,
+    Humidity,                 !- Name
+    0.0,                      !- Lower Limit Value
+    100.0,                    !- Upper Limit Value
+    Continuous,               !- Numeric Type
+    Dimensionless;            !- Unit Type
+
+Schedule:Compact,
+    Sch_RAD_zone_Radiant_System_Radiant_Availability,    !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 01:00,             !- Field 3
+    0.00000000,               !- Field 4
+    Until: 02:00,             !- Field 5
+    0.00000000,               !- Field 6
+    Until: 03:00,             !- Field 7
+    0.00000000,               !- Field 8
+    Until: 04:00,             !- Field 9
+    0.00000000,               !- Field 10
+    Until: 05:00,             !- Field 11
+    0.00000000,               !- Field 12
+    Until: 06:00,             !- Field 13
+    1.00000000,               !- Field 14
+    Until: 07:00,             !- Field 15
+    1.00000000,               !- Field 16
+    Until: 08:00,             !- Field 17
+    1.00000000,               !- Field 18
+    Until: 09:00,             !- Field 19
+    1.00000000,               !- Field 20
+    Until: 10:00,             !- Field 21
+    1.00000000,               !- Field 22
+    Until: 11:00,             !- Field 23
+    1.00000000,               !- Field 24
+    Until: 12:00,             !- Field 25
+    1.00000000,               !- Field 26
+    Until: 13:00,             !- Field 27
+    1.00000000,               !- Field 28
+    Until: 14:00,             !- Field 29
+    1.00000000,               !- Field 30
+    Until: 15:00,             !- Field 31
+    1.00000000,               !- Field 32
+    Until: 16:00,             !- Field 33
+    0.00000000,               !- Field 34
+    Until: 17:00,             !- Field 35
+    0.00000000,               !- Field 36
+    Until: 18:00,             !- Field 37
+    0.00000000,               !- Field 38
+    Until: 19:00,             !- Field 39
+    0.00000000,               !- Field 40
+    Until: 20:00,             !- Field 41
+    0.00000000,               !- Field 42
+    Until: 21:00,             !- Field 43
+    0.00000000,               !- Field 44
+    Until: 22:00,             !- Field 45
+    0.00000000,               !- Field 46
+    Until: 23:00,             !- Field 47
+    0.00000000,               !- Field 48
+    Until: 24:00,             !- Field 49
+    0.00000000;               !- Field 50
+
+Schedule:Compact,
+    Sch_AirLoop_SAT_Heat,     !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    15.00000000;              !- Field 4
+
+Schedule:Compact,
+    Sch_AirLoop_SAT_Cool,     !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    21.00000000;              !- Field 4
+
+Schedule:Compact,
+    Sch_AirLoop_SAT_Max_huRatio,    !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.01380000;               !- Field 4
+
+Schedule:Compact,
+    Sch_ClgSetP,              !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 07:00,             !- Field 3
+    26.00000000,              !- Field 4
+    Until: 18:00,             !- Field 5
+    26.00000000,              !- Field 6
+    Until: 24:00,             !- Field 7
+    26.00000000;              !- Field 8
+
+Schedule:Compact,
+    Sch_HtgSetP,              !- Name
+    Temperature,              !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 07:00,             !- Field 3
+    22.30000000,              !- Field 4
+    Until: 18:00,             !- Field 5
+    22.30000000,              !- Field 6
+    Until: 24:00,             !- Field 7
+    22.30000000;              !- Field 8
+
+Schedule:Compact,
+    Sch_Bldg_Occ,             !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay Weekdays,    !- Field 2
+    Until: 01:00,             !- Field 3
+    0.00000000,               !- Field 4
+    Until: 02:00,             !- Field 5
+    0.00000000,               !- Field 6
+    Until: 03:00,             !- Field 7
+    0.00000000,               !- Field 8
+    Until: 04:00,             !- Field 9
+    0.00000000,               !- Field 10
+    Until: 05:00,             !- Field 11
+    0.00000000,               !- Field 12
+    Until: 06:00,             !- Field 13
+    0.00000000,               !- Field 14
+    Until: 07:00,             !- Field 15
+    0.10000000,               !- Field 16
+    Until: 08:00,             !- Field 17
+    0.20000000,               !- Field 18
+    Until: 09:00,             !- Field 19
+    0.95000000,               !- Field 20
+    Until: 10:00,             !- Field 21
+    0.95000000,               !- Field 22
+    Until: 11:00,             !- Field 23
+    0.95000000,               !- Field 24
+    Until: 12:00,             !- Field 25
+    0.95000000,               !- Field 26
+    Until: 13:00,             !- Field 27
+    0.50000000,               !- Field 28
+    Until: 14:00,             !- Field 29
+    0.95000000,               !- Field 30
+    Until: 15:00,             !- Field 31
+    0.95000000,               !- Field 32
+    Until: 16:00,             !- Field 33
+    0.95000000,               !- Field 34
+    Until: 17:00,             !- Field 35
+    0.95000000,               !- Field 36
+    Until: 18:00,             !- Field 37
+    0.30000000,               !- Field 38
+    Until: 19:00,             !- Field 39
+    0.10000000,               !- Field 40
+    Until: 20:00,             !- Field 41
+    0.10000000,               !- Field 42
+    Until: 21:00,             !- Field 43
+    0.10000000,               !- Field 44
+    Until: 22:00,             !- Field 45
+    0.10000000,               !- Field 46
+    Until: 23:00,             !- Field 47
+    0.05000000,               !- Field 48
+    Until: 24:00,             !- Field 49
+    0.05000000,               !- Field 50
+    For: AllOtherDays,        !- Field 51
+    Until: 24:00,             !- Field 52
+    0.00000000;               !- Field 53
+
+Schedule:Compact,
+    Sch_Bldg_Light,           !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay Weekdays,    !- Field 2
+    Until: 01:00,             !- Field 3
+    0.05000000,               !- Field 4
+    Until: 02:00,             !- Field 5
+    0.05000000,               !- Field 6
+    Until: 03:00,             !- Field 7
+    0.05000000,               !- Field 8
+    Until: 04:00,             !- Field 9
+    0.05000000,               !- Field 10
+    Until: 05:00,             !- Field 11
+    0.05000000,               !- Field 12
+    Until: 06:00,             !- Field 13
+    0.10000000,               !- Field 14
+    Until: 07:00,             !- Field 15
+    0.09056011,               !- Field 16
+    Until: 08:00,             !- Field 17
+    0.27168034,               !- Field 18
+    Until: 09:00,             !- Field 19
+    0.81504103,               !- Field 20
+    Until: 10:00,             !- Field 21
+    0.81504103,               !- Field 22
+    Until: 11:00,             !- Field 23
+    0.81504103,               !- Field 24
+    Until: 12:00,             !- Field 25
+    0.81504103,               !- Field 26
+    Until: 13:00,             !- Field 27
+    0.81504103,               !- Field 28
+    Until: 14:00,             !- Field 29
+    0.81504103,               !- Field 30
+    Until: 15:00,             !- Field 31
+    0.81504103,               !- Field 32
+    Until: 16:00,             !- Field 33
+    0.81504103,               !- Field 34
+    Until: 17:00,             !- Field 35
+    0.81504103,               !- Field 36
+    Until: 18:00,             !- Field 37
+    0.45280057,               !- Field 38
+    Until: 19:00,             !- Field 39
+    0.27168034,               !- Field 40
+    Until: 20:00,             !- Field 41
+    0.27168034,               !- Field 42
+    Until: 21:00,             !- Field 43
+    0.18112023,               !- Field 44
+    Until: 22:00,             !- Field 45
+    0.18112023,               !- Field 46
+    Until: 23:00,             !- Field 47
+    0.09056011,               !- Field 48
+    Until: 24:00,             !- Field 49
+    0.04528006,               !- Field 50
+    For: AllOtherDays,        !- Field 51
+    Until: 24:00,             !- Field 52
+    0.05000000;               !- Field 53
+
+Schedule:Compact,
+    Sch_Bldg_Equip,           !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay Weekdays,    !- Field 2
+    Until: 01:00,             !- Field 3
+    0.38750000,               !- Field 4
+    Until: 02:00,             !- Field 5
+    0.38750000,               !- Field 6
+    Until: 03:00,             !- Field 7
+    0.38750000,               !- Field 8
+    Until: 04:00,             !- Field 9
+    0.38750000,               !- Field 10
+    Until: 05:00,             !- Field 11
+    0.38750000,               !- Field 12
+    Until: 06:00,             !- Field 13
+    0.38750000,               !- Field 14
+    Until: 07:00,             !- Field 15
+    0.38750000,               !- Field 16
+    Until: 08:00,             !- Field 17
+    0.38750000,               !- Field 18
+    Until: 09:00,             !- Field 19
+    0.85422894,               !- Field 20
+    Until: 10:00,             !- Field 21
+    0.85422894,               !- Field 22
+    Until: 11:00,             !- Field 23
+    0.85422894,               !- Field 24
+    Until: 12:00,             !- Field 25
+    0.85422894,               !- Field 26
+    Until: 13:00,             !- Field 27
+    0.75931461,               !- Field 28
+    Until: 14:00,             !- Field 29
+    0.85422894,               !- Field 30
+    Until: 15:00,             !- Field 31
+    0.85422894,               !- Field 32
+    Until: 16:00,             !- Field 33
+    0.85422894,               !- Field 34
+    Until: 17:00,             !- Field 35
+    0.85422894,               !- Field 36
+    Until: 18:00,             !- Field 37
+    0.47457163,               !- Field 38
+    Until: 19:00,             !- Field 39
+    0.37965731,               !- Field 40
+    Until: 20:00,             !- Field 41
+    0.38750000,               !- Field 42
+    Until: 21:00,             !- Field 43
+    0.38750000,               !- Field 44
+    Until: 22:00,             !- Field 45
+    0.38750000,               !- Field 46
+    Until: 23:00,             !- Field 47
+    0.38750000,               !- Field 48
+    Until: 24:00,             !- Field 49
+    0.38750000,               !- Field 50
+    For: AllOtherDays,        !- Field 51
+    Until: 24:00,             !- Field 52
+    0.30000000;               !- Field 53
+
+Schedule:Compact,
+    Sch_HVAC,                 !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 06:45,             !- Field 3
+    0.00000000,               !- Field 4
+    Until: 18:00,             !- Field 5
+    1.00000000,               !- Field 6
+    Until: 24:00,             !- Field 7
+    0.00000000,               !- Field 8
+    For: Weekdays,            !- Field 9
+    Until: 06:45,             !- Field 10
+    0.00000000,               !- Field 11
+    Until: 18:00,             !- Field 12
+    1.00000000,               !- Field 13
+    Until: 24:00,             !- Field 14
+    0.00000000,               !- Field 15
+    For: AllOtherDays,        !- Field 16
+    Until: 24:00,             !- Field 17
+    0.00000000;               !- Field 18
+
+Schedule:Compact,
+    Sch_HVAC_coil,            !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 07:00,             !- Field 3
+    0.00000000,               !- Field 4
+    Until: 18:00,             !- Field 5
+    1.00000000,               !- Field 6
+    Until: 24:00,             !- Field 7
+    0.00000000,               !- Field 8
+    For: Weekdays,            !- Field 9
+    Until: 07:00,             !- Field 10
+    0.00000000,               !- Field 11
+    Until: 18:00,             !- Field 12
+    1.00000000,               !- Field 13
+    Until: 24:00,             !- Field 14
+    0.00000000,               !- Field 15
+    For: AllOtherDays,        !- Field 16
+    Until: 24:00,             !- Field 17
+    0.00000000;               !- Field 18
+
+Schedule:Compact,
+    Sch_Plant,                !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1.00000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_HVAC_Off,             !- Name
+    On/Off,                   !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.00000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_Infiltration,         !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 06:45,             !- Field 3
+    1.00000000,               !- Field 4
+    Until: 18:00,             !- Field 5
+    0.25000000,               !- Field 6
+    Until: 24:00,             !- Field 7
+    1.00000000,               !- Field 8
+    For: Weekdays,            !- Field 9
+    Until: 06:45,             !- Field 10
+    1.00000000,               !- Field 11
+    Until: 18:00,             !- Field 12
+    0.25000000,               !- Field 13
+    Until: 24:00,             !- Field 14
+    1.00000000,               !- Field 15
+    For: AllOtherDays,        !- Field 16
+    Until: 24:00,             !- Field 17
+    1.00000000;               !- Field 18
+
+Schedule:Compact,
+    Sch_Slab_Ctrl_Avg_Window_N,    !- Name
+    Any Number,               !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    1.00000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_Work_Eff,             !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.00000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_Clo,                  !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.57000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_Air_Velo,             !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: AllDays,             !- Field 2
+    Until: 24:00,             !- Field 3
+    0.10000000;               !- Field 4
+
+Schedule:Compact,
+    Sch_OA_Fraction,          !- Name
+    Fraction,                 !- Schedule Type Limits Name
+    Through: 12/31,           !- Field 1
+    For: SummerDesignDay WinterDesignDay,    !- Field 2
+    Until: 07:00,             !- Field 3
+    0.00000000,               !- Field 4
+    Until: 18:00,             !- Field 5
+    1.00000000,               !- Field 6
+    Until: 24:00,             !- Field 7
+    0.00000000,               !- Field 8
+    For: Weekdays,            !- Field 9
+    Until: 07:00,             !- Field 10
+    0.00000000,               !- Field 11
+    Until: 18:00,             !- Field 12
+    1.00000000,               !- Field 13
+    Until: 24:00,             !- Field 14
+    0.00000000,               !- Field 15
+    For: AllOtherDays,        !- Field 16
+    Until: 24:00,             !- Field 17
+    0.00000000;               !- Field 18
+
+Schedule:Constant,
+    Sch_Radiant_ClgSetP,      !- Name
+    Temperature,              !- Schedule Type Limits Name
+    0.0;                      !- Hourly Value
+
+Schedule:Constant,
+    Sch_Radiant_HtgSetP,      !- Name
+    Temperature,              !- Schedule Type Limits Name
+    -60.0;                    !- Hourly Value
+
+Schedule:Constant,
+    Sch_Slab_CSP,             !- Name
+    Temperature,              !- Schedule Type Limits Name
+    25.0;                     !- Hourly Value
+
+Schedule:Constant,
+    Sch_Slab_HSP,             !- Name
+    Temperature,              !- Schedule Type Limits Name
+    21.0;                     !- Hourly Value
+
+Schedule:Constant,
+    Sch_CSP_Error,            !- Name
+    Temperature,              !- Schedule Type Limits Name
+    0.0;                      !- Hourly Value
+
+Schedule:Constant,
+    Sch_HSP_Error,            !- Name
+    Temperature,              !- Schedule Type Limits Name
+    0.0;                      !- Hourly Value
+
+Schedule:Constant,
+    Sch_Oat_Running_Mean,     !- Name
+    Temperature,              !- Schedule Type Limits Name
+    20.0;                     !- Hourly Value
+
+Schedule:Constant,
+    Sch_Avg_Ctrl_Temp,        !- Name
+    Temperature,              !- Schedule Type Limits Name
+    20.0;                     !- Hourly Value
+
+Schedule:Constant,
+    Sch_ActivityLevel,        !- Name
+    Any Number,               !- Schedule Type Limits Name
+    126.0;                    !- Hourly Value
+
+Schedule:Constant,
+    Sch_ZoneControl_Type,     !- Name
+    Control Type,             !- Schedule Type Limits Name
+    4.0;                      !- Hourly Value
+
+Schedule:Constant,
+    Sch_ChW_MainLoop_Temp,    !- Name
+    Temperature,              !- Schedule Type Limits Name
+    6.973334657671235;        !- Hourly Value
+
+Schedule:Constant,
+    Sch_Radiant_Water_Flow,    !- Name
+    Any Number,               !- Schedule Type Limits Name
+    0.000111076;              !- Hourly Value
+
+Schedule:Constant,
+    Sch_HW_MainLoop_Temp,     !- Name
+    Temperature,              !- Schedule Type Limits Name
+    30.0;                     !- Hourly Value
+
+Material,
+    RAD_Continuous_Insulation,    !- Name
+    MediumRough,              !- Roughness
+    0.043924842,              !- Thickness
+    0.032,                    !- Conductivity
+    72.0,                     !- Density
+    1680.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Stucco_22mm,          !- Name
+    Smooth,                   !- Roughness
+    0.022225,                 !- Thickness
+    0.72,                     !- Conductivity
+    1856.0,                   !- Density
+    840.0,                    !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Gypsum_Board_13mm,    !- Name
+    Smooth,                   !- Roughness
+    0.0127,                   !- Thickness
+    0.16,                     !- Conductivity
+    800.0,                    !- Density
+    1090.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Floor_Material,       !- Name
+    MediumRough,              !- Roughness
+    0.2603,                   !- Thickness
+    1.8,                      !- Conductivity
+    2240.0,                   !- Density
+    900.0,                    !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Acoustic_Ceiling_13mm,    !- Name
+    MediumSmooth,             !- Roughness
+    0.0127,                   !- Thickness
+    0.057,                    !- Conductivity
+    288.0,                    !- Density
+    1339.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Expanded_Polystyrene_Insulation_59mm,    !- Name
+    MediumRough,              !- Roughness
+    0.059,                    !- Thickness
+    0.03,                     !- Conductivity
+    15.0,                     !- Density
+    1500.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Wood_150mm,           !- Name
+    MediumSmooth,             !- Roughness
+    0.15,                     !- Thickness
+    0.12,                     !- Conductivity
+    540.0,                    !- Density
+    1210.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_MassLayer_Wood,       !- Name
+    MediumSmooth,             !- Roughness
+    0.154320987654,           !- Thickness
+    0.12,                     !- Conductivity
+    540.0,                    !- Density
+    1210.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Expanded_Polystyrene_Insulation_Layer_1_0.0264mm,    !- Name
+    MediumRough,              !- Roughness
+    0.0264,                   !- Thickness
+    0.03,                     !- Conductivity
+    15.0,                     !- Density
+    1500.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Floor_Covering_Layer_1_0.077RSI,    !- Name
+    MediumRough,              !- Roughness
+    0.00462,                  !- Thickness
+    0.06,                     !- Conductivity
+    288.0,                    !- Density
+    1380.0,                   !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Screed_Layer_1_0.1326mm,    !- Name
+    MediumRough,              !- Roughness
+    0.1326,                   !- Thickness
+    0.41,                     !- Conductivity
+    1200.0,                   !- Density
+    840.0,                    !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material,
+    RAD_Concrete_Normal_Wgt_Layer_1_0.2603mm,    !- Name
+    MediumRough,              !- Roughness
+    0.2603,                   !- Thickness
+    1.8,                      !- Conductivity
+    2240.0,                   !- Density
+    900.0,                    !- Specific Heat
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:Nomass,
+    RAD_Metal_Frame_with_Fiberglass_Insulation_152mm,    !- Name
+    MediumSmooth,             !- Roughness
+    1.3,                      !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:Nomass,
+    RAD_Exterior_Wall_Insulation,    !- Name
+    MediumSmooth,             !- Roughness
+    1.114756,                 !- Thermal Resistance
+    0.9,                      !- Thermal Absorptance
+    0.7,                      !- Solar Absorptance
+    0.7;                      !- Visible Absorptance
+
+Material:Airgap,
+    RAD_Air_Gap_102mm,        !- Name
+    0.18;                     !- Thermal Resistance
+
+Windowmaterial:Simpleglazingsystem,
+    Simple_Window,            !- Name
+    2.16,                     !- UFactor
+    0.36;                     !- Solar Heat Gain Coefficient
+
+Construction,
+    RAD_Mass_Construction_Existing,    !- Name
+    RAD_MassLayer_Wood;       !- Outside Layer
+
+Construction,
+    RAD_Interior_Wall,        !- Name
+    RAD_Gypsum_Board_13mm,    !- Outside Layer
+    RAD_Air_Gap_102mm,        !- Layer 2
+    RAD_Gypsum_Board_13mm;    !- Layer 3
+
+Construction,
+    RAD_Drop_Ceiling,         !- Name
+    RAD_Acoustic_Ceiling_13mm;    !- Outside Layer
+
+Construction,
+    RAD_Mass_Construction,    !- Name
+    RAD_MassLayer_Wood;       !- Outside Layer
+
+Construction,
+    RAD_Exterior_Wall,        !- Name
+    RAD_Stucco_22mm,          !- Outside Layer
+    RAD_Continuous_Insulation,    !- Layer 2
+    RAD_Metal_Frame_with_Fiberglass_Insulation_152mm,    !- Layer 3
+    RAD_Gypsum_Board_13mm;    !- Layer 4
+
+Construction,
+    RAD_Window_Simple_Glazing,    !- Name
+    Simple_Window;            !- Outside Layer
+
+Construction:Internalsource,
+    RAD_zone_Interior_Slab_Floor,    !- Name
+    2,                        !- Source Present After Layer Number
+    2,                        !- Temperature Calculation Requested After Layer Number
+    2,                        !- Dimensions for the CTF Calculation
+    0.1524,                   !- Tube Spacing
+    RAD_Concrete_Normal_Wgt_Layer_1_0.2603mm,    !- Outside Layer
+    RAD_Expanded_Polystyrene_Insulation_Layer_1_0.0264mm,    !- Layer 2
+    RAD_Screed_Layer_1_0.1326mm,    !- Layer 3
+    RAD_Floor_Covering_Layer_1_0.077RSI;    !- Layer 4
+
+Construction:Internalsource,
+    RAD_zone_Interior_Slab_Ceiling,    !- Name
+    2,                        !- Source Present After Layer Number
+    2,                        !- Temperature Calculation Requested After Layer Number
+    2,                        !- Dimensions for the CTF Calculation
+    0.1524,                   !- Tube Spacing
+    RAD_Floor_Covering_Layer_1_0.077RSI,    !- Outside Layer
+    RAD_Screed_Layer_1_0.1326mm,    !- Layer 2
+    RAD_Expanded_Polystyrene_Insulation_Layer_1_0.0264mm,    !- Layer 3
+    RAD_Concrete_Normal_Wgt_Layer_1_0.2603mm;    !- Layer 4
+
+Globalgeometryrules,
+    UpperLeftCorner,          !- Starting Vertex Position
+    CounterClockWise,         !- Vertex Entry Direction
+    Relative,                 !- Coordinate System
+    Relative,                 !- Daylighting Reference Point Coordinate System
+    Relative;                 !- Rectangular Surface Coordinate System
+
+Zone,
+    RAD_zone,                 !- Name
+    0.0,                      !- Direction of Relative North
+    0.0,                      !- X Origin
+    0.0,                      !- Y Origin
+    0.0,                      !- Z Origin
+    1,                        !- Type
+    1,                        !- Multiplier
+    autocalculate,            !- Ceiling Height
+    autocalculate,            !- Volume
+    autocalculate,            !- Floor Area
+    ,                         !- Zone Inside Convection Algorithm
+    ,                         !- Zone Outside Convection Algorithm
+    Yes;                      !- Part of Total Floor Area
+
+Buildingsurface:Detailed,
+    RAD_zone_Exterior_South_Wall,    !- Name
+    Wall,                     !- Surface Type
+    RAD_Exterior_Wall,        !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Outdoors,                 !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    SunExposed,               !- Sun Exposure
+    WindExposed,              !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    3.048,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    41.0625,                  !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    41.0625,                  !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    3.048;                    !- Vertex 4 Zcoordinate
+
+Buildingsurface:Detailed,
+    RAD_zone_Exterior_North_Wall,    !- Name
+    Wall,                     !- Surface Type
+    RAD_Interior_Wall,        !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Adiabatic,                !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    41.062,                   !- Vertex 1 Xcoordinate
+    4.312,                    !- Vertex 1 Ycoordinate
+    3.048,                    !- Vertex 1 Zcoordinate
+    41.062,                   !- Vertex 2 Xcoordinate
+    4.312,                    !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    4.313,                    !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    4.313,                    !- Vertex 4 Ycoordinate
+    3.048;                    !- Vertex 4 Zcoordinate
+
+Buildingsurface:Detailed,
+    RAD_zone_Exterior_East_Wall,    !- Name
+    Wall,                     !- Surface Type
+    RAD_Interior_Wall,        !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Adiabatic,                !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    41.062,                   !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    3.048,                    !- Vertex 1 Zcoordinate
+    41.062,                   !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    41.062,                   !- Vertex 3 Xcoordinate
+    4.312,                    !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    41.062,                   !- Vertex 4 Xcoordinate
+    4.312,                    !- Vertex 4 Ycoordinate
+    3.048;                    !- Vertex 4 Zcoordinate
+
+Buildingsurface:Detailed,
+    RAD_zone_Exterior_West_Wall,    !- Name
+    Wall,                     !- Surface Type
+    RAD_Interior_Wall,        !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Adiabatic,                !- Outside Boundary Condition
+    ,                         !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    4.312,                    !- Vertex 1 Ycoordinate
+    3.048,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    4.312,                    !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    0.0,                      !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    0.0,                      !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    3.048;                    !- Vertex 4 Zcoordinate
+
+Buildingsurface:Detailed,
+    RAD_zone_Zone_Floor,      !- Name
+    Floor,                    !- Surface Type
+    RAD_zone_Interior_Slab_Floor,    !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Surface,                  !- Outside Boundary Condition
+    RAD_zone_Zone_Ceiling,    !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    0.0,                      !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    4.312,                    !- Vertex 2 Ycoordinate
+    0.0,                      !- Vertex 2 Zcoordinate
+    41.062,                   !- Vertex 3 Xcoordinate
+    4.312,                    !- Vertex 3 Ycoordinate
+    0.0,                      !- Vertex 3 Zcoordinate
+    41.062,                   !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    0.0;                      !- Vertex 4 Zcoordinate
+
+Buildingsurface:Detailed,
+    RAD_zone_Zone_Ceiling,    !- Name
+    Ceiling,                  !- Surface Type
+    RAD_zone_Interior_Slab_Ceiling,    !- Construction Name
+    RAD_zone,                 !- Zone Name
+    Surface,                  !- Outside Boundary Condition
+    RAD_zone_Zone_Floor,      !- Outside Boundary Condition Object
+    NoSun,                    !- Sun Exposure
+    NoWind,                   !- Wind Exposure
+    autocalculate,            !- View Factor to Ground
+    autocalculate,            !- Number of Vertices
+    0.0,                      !- Vertex 1 Xcoordinate
+    4.312,                    !- Vertex 1 Ycoordinate
+    3.048,                    !- Vertex 1 Zcoordinate
+    0.0,                      !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    3.048,                    !- Vertex 2 Zcoordinate
+    41.062,                   !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    3.048,                    !- Vertex 3 Zcoordinate
+    41.062,                   !- Vertex 4 Xcoordinate
+    4.312,                    !- Vertex 4 Ycoordinate
+    3.048;                    !- Vertex 4 Zcoordinate
+
+Fenestrationsurface:Detailed,
+    RAD_zone_Exterior_South_Wall_Window_1,    !- Name
+    Window,                   !- Surface Type
+    RAD_Window_Simple_Glazing,    !- Construction Name
+    RAD_zone_Exterior_South_Wall,    !- Building Surface Name
+    ,                         !- Outside Boundary Condition Object
+    autocalculate,            !- View Factor to Ground
+    ,                         !- Frame and Divider Name
+    1.0,                      !- Multiplier
+    autocalculate,            !- Number of Vertices
+    0.025,                    !- Vertex 1 Xcoordinate
+    0.0,                      !- Vertex 1 Ycoordinate
+    1.869,                    !- Vertex 1 Zcoordinate
+    0.025,                    !- Vertex 2 Xcoordinate
+    0.0,                      !- Vertex 2 Ycoordinate
+    0.61,                     !- Vertex 2 Zcoordinate
+    41.037,                   !- Vertex 3 Xcoordinate
+    0.0,                      !- Vertex 3 Ycoordinate
+    0.61,                     !- Vertex 3 Zcoordinate
+    41.037,                   !- Vertex 4 Xcoordinate
+    0.0,                      !- Vertex 4 Ycoordinate
+    1.869;                    !- Vertex 4 Zcoordinate
+
+Internalmass,
+    RAD_Mass_Surface_1,       !- Name
+    RAD_Mass_Construction_Existing,    !- Construction Name
+    RAD_Zone,                 !- Zone Name
+    159.373828125;            !- Surface Area
+
+Internalmass,
+    RAD_Mass_Surface_2,       !- Name
+    RAD_Mass_Construction_Existing,    !- Construction Name
+    RAD_Zone,                 !- Zone Name
+    159.373828125;            !- Surface Area
+
+People,
+    Zone_People,              !- Name
+    RAD_zone,                 !- Zone or ZoneList Name
+    Sch_Bldg_Occ,             !- Number of People Schedule Name
+    People,                   !- Number of People Calculation Method
+    14.7185676616,            !- Number of People
+    ,                         !- People per Zone Floor Area
+    ,                         !- Zone Floor Area per Person
+    0.4,                      !- Fraction Radiant
+    autocalculate,            !- Sensible Heat Fraction
+    Sch_ActivityLevel,        !- Activity Level Schedule Name
+    3.82e-08,                 !- Carbon Dioxide Generation Rate
+    Yes,                      !- Enable ASHRAE 55 Comfort Warnings
+    ZoneAveraged,             !- Mean Radiant Temperature Calculation Type
+    ,                         !- Surface NameAngle Factor List Name
+    Sch_Work_Eff,             !- Work Efficiency Schedule Name
+    ClothingInsulationSchedule,    !- Clothing Insulation Calculation Method
+    ,                         !- Clothing Insulation Calculation Method Schedule Name
+    Sch_Clo,                  !- Clothing Insulation Schedule Name
+    Sch_Air_Velo,             !- Air Velocity Schedule Name
+    Fanger;                   !- Thermal Comfort Model 1 Type
+
+Lights,
+    Zone_Lights,              !- Name
+    RAD_zone,                 !- Zone or ZoneList Name
+    Sch_Bldg_Light,           !- Schedule Name
+    LightingLevel,            !- Design Level Calculation Method
+    1369.6232625,             !- Lighting Level
+    ,                         !- Watts per Zone Floor Area
+    ,                         !- Watts per Person
+    0.0,                      !- Return Air Fraction
+    0.72,                     !- Fraction Radiant
+    0.18,                     !- Fraction Visible
+    1.0,                      !- Fraction Replaceable
+    General,                  !- EndUse Subcategory
+    No,                       !- Return Air Fraction Calculated from Plenum Temperature
+    0.0,                      !- Return Air Fraction Function of Plenum Temperature Coefficient 1
+    0.0;                      !- Return Air Fraction Function of Plenum Temperature Coefficient 2
+
+Electricequipment,
+    Zone_Equipment,           !- Name
+    RAD_zone,                 !- Zone or ZoneList Name
+    Sch_Bldg_Equip,           !- Schedule Name
+    EquipmentLevel,           !- Design Level Calculation Method
+    2329.72661953,            !- Design Level
+    ,                         !- Watts per Zone Floor Area
+    ,                         !- Watts per Person
+    0.0,                      !- Fraction Latent
+    0.5,                      !- Fraction Radiant
+    0.0,                      !- Fraction Lost
+    General;                  !- EndUse Subcategory
+
+Zoneinfiltration:Designflowrate,
+    Zone_Infil,               !- Name
+    RAD_zone,                 !- Zone or ZoneList Name
+    Sch_Infiltration,         !- Schedule Name
+    Flow/ExteriorArea,        !- Design Flow Rate Calculation Method
+    ,                         !- Design Flow Rate
+    ,                         !- Flow per Zone Floor Area
+    0.00056896,               !- Flow per Exterior Surface Area
+    ,                         !- Air Changes per Hour
+    0.0,                      !- Constant Term Coefficient
+    0.0,                      !- Temperature Term Coefficient
+    0.224,                    !- Velocity Term Coefficient
+    0.0;                      !- Velocity Squared Term Coefficient
+
+Designspecification:Outdoorair,
+    Space_Ventilation_Spec,    !- Name
+    Maximum,                  !- Outdoor Air Method
+    0.0047655,                !- Outdoor Air Flow per Person
+    0.00057186,               !- Outdoor Air Flow per Zone Floor Area
+    ,                         !- Outdoor Air Flow per Zone
+    ,                         !- Outdoor Air Flow Air Changes per Hour
+    Sch_OA_Fraction;          !- Outdoor Air Schedule Name
+
+Designspecification:Zoneairdistribution,
+    Office_Distribution_Spec,    !- Name
+    1.0,                      !- Zone Air Distribution Effectiveness in Cooling Mode
+    1.0,                      !- Zone Air Distribution Effectiveness in Heating Mode
+    ,                         !- Zone Air Distribution Effectiveness Schedule Name
+    0.0,                      !- Zone Secondary Recirculation Fraction
+    0.0;                      !- Minimum Zone Ventilation Efficiency
+
+Sizing:Zone,
+    RAD_Zone,                 !- Zone or ZoneList Name
+    SupplyAirTemperature,     !- Zone Cooling Design Supply Air Temperature Input Method
+    20.0,                     !- Zone Cooling Design Supply Air Temperature
+    ,                         !- Zone Cooling Design Supply Air Temperature Difference
+    SupplyAirTemperature,     !- Zone Heating Design Supply Air Temperature Input Method
+    45.0,                     !- Zone Heating Design Supply Air Temperature
+    ,                         !- Zone Heating Design Supply Air Temperature Difference
+    0.009,                    !- Zone Cooling Design Supply Air Humidity Ratio
+    0.004,                    !- Zone Heating Design Supply Air Humidity Ratio
+    Space_Ventilation_Spec,    !- Design Specification Outdoor Air Object Name
+    ,                         !- Zone Heating Sizing Factor
+    ,                         !- Zone Cooling Sizing Factor
+    DesignDay,                !- Cooling Design Air Flow Method
+    ,                         !- Cooling Design Air Flow Rate
+    ,                         !- Cooling Minimum Air Flow per Zone Floor Area
+    ,                         !- Cooling Minimum Air Flow
+    1.0,                      !- Cooling Minimum Air Flow Fraction
+    DesignDay,                !- Heating Design Air Flow Method
+    ,                         !- Heating Design Air Flow Rate
+    ,                         !- Heating Maximum Air Flow per Zone Floor Area
+    ,                         !- Heating Maximum Air Flow
+    1.0,                      !- Heating Maximum Air Flow Fraction
+    Office_Distribution_Spec,    !- Design Specification Zone Air Distribution Object Name
+    No,                       !- Account for Dedicated Outdoor Air System
+    ,                         !- Dedicated Outdoor Air System Control Strategy
+    ,                         !- Dedicated Outdoor Air Low Setpoint Temperature for Design
+    ;                         !- Dedicated Outdoor Air High Setpoint Temperature for Design
+
+Sizing:System,
+    DOAS,                     !- AirLoop Name
+    VentilationRequirement,    !- Type of Load to Size On
+    autosize,                 !- Design Outdoor Air Flow Rate
+    1.0,                      !- Central Heating Maximum System Air Flow Ratio
+    4.5,                      !- Preheat Design Temperature
+    0.008,                    !- Preheat Design Humidity Ratio
+    11.0,                     !- Precool Design Temperature
+    0.008,                    !- Precool Design Humidity Ratio
+    20.0,                     !- Central Cooling Design Supply Air Temperature
+    45.0,                     !- Central Heating Design Supply Air Temperature
+    NonCoincident,            !- Type of Zone Sum to Use
+    Yes,                      !- 100 Outdoor Air in Cooling
+    Yes,                      !- 100 Outdoor Air in Heating
+    0.008,                    !- Central Cooling Design Supply Air Humidity Ratio
+    0.008,                    !- Central Heating Design Supply Air Humidity Ratio
+    DesignDay,                !- Cooling Supply Air Flow Rate Method
+    0.0,                      !- Cooling Supply Air Flow Rate
+    ,                         !- Cooling Supply Air Flow Rate Per Floor Area
+    ,                         !- Cooling Fraction of Autosized Cooling Supply Air Flow Rate
+    ,                         !- Cooling Supply Air Flow Rate Per Unit Cooling Capacity
+    DesignDay,                !- Heating Supply Air Flow Rate Method
+    0.0,                      !- Heating Supply Air Flow Rate
+    ,                         !- Heating Supply Air Flow Rate Per Floor Area
+    ,                         !- Heating Fraction of Autosized Heating Supply Air Flow Rate
+    ,                         !- Heating Fraction of Autosized Cooling Supply Air Flow Rate
+    ,                         !- Heating Supply Air Flow Rate Per Unit Heating Capacity
+    ,                         !- System Outdoor Air Method
+    1.0,                      !- Zone Maximum Outdoor Air Fraction
+    CoolingDesignCapacity,    !- Cooling Design Capacity Method
+    autosize,                 !- Cooling Design Capacity
+    ,                         !- Cooling Design Capacity Per Floor Area
+    ,                         !- Fraction of Autosized Cooling Design Capacity
+    HeatingDesignCapacity,    !- Heating Design Capacity Method
+    autosize,                 !- Heating Design Capacity
+    ,                         !- Heating Design Capacity Per Floor Area
+    ,                         !- Fraction of Autosized Heating Design Capacity
+    OnOff;                    !- Central Cooling Capacity Control Method
+
+Sizing:Plant,
+    Radiant_System_ChW_PlantLoop,    !- Plant or Condenser Loop Name
+    Cooling,                  !- Loop Type
+    7.0,                      !- Design Loop Exit Temperature
+    4.0,                      !- Loop Design Temperature Difference
+    NonCoincident,            !- Sizing Option
+    1;                        !- Zone Timesteps in Averaging Window
+
+Sizing:Plant,
+    Radiant_System_HW_PlantLoop,    !- Plant or Condenser Loop Name
+    Heating,                  !- Loop Type
+    60.0,                     !- Design Loop Exit Temperature
+    10.0,                     !- Loop Design Temperature Difference
+    NonCoincident,            !- Sizing Option
+    1;                        !- Zone Timesteps in Averaging Window
+
+Sizing:Plant,
+    DOAS_HW_PlantLoop,        !- Plant or Condenser Loop Name
+    Heating,                  !- Loop Type
+    60.0,                     !- Design Loop Exit Temperature
+    10.0,                     !- Loop Design Temperature Difference
+    NonCoincident,            !- Sizing Option
+    1;                        !- Zone Timesteps in Averaging Window
+
+Zonecontrol:Thermostat,
+    Zone_Thermostat,          !- Name
+    RAD_zone,                 !- Zone or ZoneList Name
+    Sch_ZoneControl_Type,     !- Control Type Schedule Name
+    ThermostatSetpoint:DualSetpoint,    !- Control 1 Object Type
+    DualSP_Set,               !- Control 1 Name
+    ,                         !- Control 2 Object Type
+    ,                         !- Control 2 Name
+    ,                         !- Control 3 Object Type
+    ,                         !- Control 3 Name
+    ,                         !- Control 4 Object Type
+    ,                         !- Control 4 Name
+    0.0;                      !- Temperature Difference Between Cutout And Setpoint
+
+Thermostatsetpoint:Dualsetpoint,
+    DualSP_Set,               !- Name
+    Sch_HtgSetP,              !- Heating Setpoint Temperature Schedule Name
+    Sch_ClgSetP;              !- Cooling Setpoint Temperature Schedule Name
+
+Zonehvac:Lowtemperatureradiant:Variableflow,
+    RAD_zone_Radiant_System,    !- Name
+    Sch_RAD_zone_Radiant_System_Radiant_Availability,    !- Availability Schedule Name
+    RAD_zone,                 !- Zone Name
+    RAD_zone_Radiant_System_Surface_Group,    !- Surface Name or Radiant Surface Group Name
+    0.01139,                  !- Hydronic Tubing Inside Diameter
+    1244.08058563,            !- Hydronic Tubing Length
+    MeanAirTemperature,       !- Temperature Control Type
+    HeatingDesignCapacity,    !- Heating Design Capacity Method
+    AutoSize,                 !- Heating Design Capacity
+    ,                         !- Heating Design Capacity Per Floor Area
+    1.0,                      !- Fraction of Autosized Heating Design Capacity
+    0.000111076,              !- Maximum Hot Water Flow
+    RAD_zone_Radiant_System_HW_Inlet_Node,    !- Heating Water Inlet Node Name
+    RAD_zone_Radiant_System_HW_Outlet_Node,    !- Heating Water Outlet Node Name
+    0.5,                      !- Heating Control Throttling Range
+    Sch_Radiant_HtgSetP,      !- Heating Control Temperature Schedule Name
+    CoolingDesignCapacity,    !- Cooling Design Capacity Method
+    AutoSize,                 !- Cooling Design Capacity
+    ,                         !- Cooling Design Capacity Per Floor Area
+    ,                         !- Fraction of Autosized Cooling Design Capacity
+    0.000111076,              !- Maximum Cold Water Flow
+    RAD_zone_Radiant_System_ChW_Inlet_Node,    !- Cooling Water Inlet Node Name
+    RAD_zone_Radiant_System_ChW_Outlet_Node,    !- Cooling Water Outlet Node Name
+    0.5,                      !- Cooling Control Throttling Range
+    Sch_Radiant_ClgSetP,      !- Cooling Control Temperature Schedule Name
+    SimpleOff,                !- Condensation Control Type
+    0.0,                      !- Condensation Control Dewpoint Offset
+    CalculateFromCircuitLength,    !- Number of Circuits
+    47.8492532935;            !- Circuit Length
+
+Zonehvac:Lowtemperatureradiant:Surfacegroup,
+    RAD_zone_Radiant_System_Surface_Group,    !- Name
+    RAD_zone_Zone_Floor,      !- Surface 1 Name
+    1.0;                      !- Flow Fraction for Surface 1
+
+AirTerminal:SingleDuct:VAV:NoReheat,
+    RAD_zone_AirTerminal,     !- Name
+    Sch_HVAC,                 !- Availability Schedule Name
+    RAD_zone_AirTerminal_Outlet_Node,    !- Air Outlet Node Name
+    RAD_zone_AirTerminal_Inlet_Node,    !- Air Inlet Node Name
+    autosize,                 !- Maximum Air Flow Rate
+    Constant,                 !- Zone Minimum Air Flow Input Method
+    1.0,                      !- Constant Minimum Air Flow Fraction
+    ,                         !- Fixed Minimum Air Flow Rate
+    ,                         !- Minimum Air Flow Fraction Schedule Name
+    Space_Ventilation_Spec;    !- Design Specification Outdoor Air Object Name
+
+ZoneHVAC:AirDistributionUnit,
+    RAD_zone_AirTerminalUnit,    !- Name
+    RAD_zone_AirTerminal_Outlet_Node,    !- Air Distribution Unit Outlet Node Name
+    AirTerminal:SingleDuct:VAV:NoReheat,    !- Air Terminal Object Type
+    RAD_zone_AirTerminal,     !- Air Terminal Name
+    0.0,                      !- Nominal Upstream Leakage Fraction
+    0.0;                      !- Constant Downstream Leakage Fraction
+
+Zonehvac:Equipmentlist,
+    RAD_zone_Equipment,       !- Name
+    SequentialLoad,           !- Load Distribution Scheme
+    ZoneHVAC:LowTemperatureRadiant:VariableFlow,    !- Zone Equipment 1 Object Type
+    RAD_zone_Radiant_System,    !- Zone Equipment 1 Name
+    1,                        !- Zone Equipment 1 Cooling Sequence
+    1,                        !- Zone Equipment 1 Heating or NoLoad Sequence
+    1,                        !- Zone Equipment 1 Sequential Cooling Fraction
+    1,                        !- Zone Equipment 1 Sequential Heating Fraction
+    ZoneHVAC:AirDistributionUnit,    !- Zone Equipment 2 Object Type
+    RAD_zone_AirTerminalUnit,    !- Zone Equipment 2 Name
+    2,                        !- Zone Equipment 2 Cooling Sequence
+    2,                        !- Zone Equipment 2 Heating or NoLoad Sequence
+    1,                        !- Zone Equipment 2 Sequential Cooling Fraction
+    1;                        !- Zone Equipment 2 Sequential Heating Fraction
+
+Zonehvac:Equipmentconnections,
+    RAD_zone,                 !- Zone Name
+    RAD_zone_Equipment,       !- Zone Conditioning Equipment List Name
+    RAD_zone_AirTerminal_Outlet_Node,    !- Zone Air Inlet Node or NodeList Name
+    ,                         !- Zone Air Exhaust Node or NodeList Name
+    RAD_zone_Zone_AirNode,    !- Zone Air Node Name
+    RAD_zone_Zone_Air_Outlet_Node;    !- Zone Return Air Node or NodeList Name
+
+Fan:VariableVolume,
+    DOAS_Fan,                 !- Name
+    Sch_HVAC,                 !- Availability Schedule Name
+    0.65,                     !- Fan Total Efficiency
+    953.0,                    !- Pressure Rise
+    0.65,                     !- Maximum Flow Rate
+    FixedFlowRate,            !- Fan Power Minimum Flow Rate Input Method
+    ,                         !- Fan Power Minimum Flow Fraction
+    1e-11,                    !- Fan Power Minimum Air Flow Rate
+    0.865,                    !- Motor Efficiency
+    1.0,                      !- Motor In Airstream Fraction
+    0.21976201,               !- Fan Power Coefficient 1
+    -0.87478399,              !- Fan Power Coefficient 2
+    1.65259695,               !- Fan Power Coefficient 3
+    0.0,                      !- Fan Power Coefficient 4
+    0.0,                      !- Fan Power Coefficient 5
+    MixedAir_Node,            !- Air Inlet Node Name
+    Fan_Outlet,               !- Air Outlet Node Name
+    General;                  !- EndUse Subcategory
+
+Coil:Cooling:DX:TwoStageWithHumidityControlMode,
+    DOAS_ChW_WaterCoil_Cooling_Coil,    !- Name
+    Sch_HVAC_coil,            !- Availability Schedule Name
+    Fan_Outlet,               !- Air Inlet Node Name
+    DX_Coil_Outlet,           !- Air Outlet Node Name
+    ,                         !- Crankcase Heater Capacity
+    ,                         !- Maximum Outdoor DryBulb Temperature for Crankcase Heater Operation
+    2,                        !- Number of Capacity Stages
+    1,                        !- Number of Enhanced Dehumidification Modes
+    CoilPerformance:DX:Cooling,    !- Normal Mode Stage 1 Coil Performance Object Type
+    DOAS_Standard_Perf_1,     !- Normal Mode Stage 1 Coil Performance Name
+    CoilPerformance:DX:Cooling,    !- Normal Mode Stage 12 Coil Performance Object Type
+    DOAS_Standard_Perf_1+2,    !- Normal Mode Stage 12 Coil Performance Name
+    CoilPerformance:DX:Cooling,    !- Dehumidification Mode 1 Stage 1 Coil Performance Object Type
+    DOAS_Dehumid_Perf_1,      !- Dehumidification Mode 1 Stage 1 Coil Performance Name
+    CoilPerformance:DX:Cooling,    !- Dehumidification Mode 1 Stage 12 Coil Performance Object Type
+    DOAS_Dehumid_Perf_1+2,    !- Dehumidification Mode 1 Stage 12 Coil Performance Name
+    ,                         !- Supply Water Storage Tank Name
+    ,                         !- Condensate Collection Water Storage Tank Name
+    -25.0,                    !- Minimum Outdoor DryBulb Temperature for Compressor Operation
+    0.0,                      !- Basin Heater Capacity
+    2.0;                      !- Basin Heater Setpoint Temperature
+
+COILPERFORMANCE:DX:COOLING,
+    DOAS_Standard_Perf_1,     !- Name
+    autosize,                 !- Gross Rated Total Cooling Capacity
+    autosize,                 !- Gross Rated Sensible Heat Ratio
+    4.2,                      !- Gross Rated Cooling COP
+    autosize,                 !- Rated Air Flow Rate
+    0.0,                      !- Fraction of Air Flow Bypassed Around Coil
+    DOAS_DX_Coil_Std_Cap_FT,    !- Total Cooling Capacity Function of Temperature Curve Name
+    DOAS_DX_Coil_Cap_FF,      !- Total Cooling Capacity Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_Std_EIR_FT,    !- Energy Input Ratio Function of Temperature Curve Name
+    DOAS_DX_Coil_EIR_FF,      !- Energy Input Ratio Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_PLF,         !- Part Load Fraction Correlation Curve Name
+    ,                         !- Nominal Time for Condensate Removal to Begin
+    ,                         !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity
+    ,                         !- Maximum Cycling Rate
+    ,                         !- Latent Capacity Time Constant
+    ,                         !- Condenser Air Inlet Node Name
+    ,                         !- Condenser Type
+    ,                         !- Evaporative Condenser Effectiveness
+    ,                         !- Evaporative Condenser Air Flow Rate
+    ;                         !- Evaporative Condenser Pump Rated Power Consumption
+
+COILPERFORMANCE:DX:COOLING,
+    DOAS_Standard_Perf_1+2,    !- Name
+    autosize,                 !- Gross Rated Total Cooling Capacity
+    autosize,                 !- Gross Rated Sensible Heat Ratio
+    4.2,                      !- Gross Rated Cooling COP
+    autosize,                 !- Rated Air Flow Rate
+    0.0,                      !- Fraction of Air Flow Bypassed Around Coil
+    DOAS_DX_Coil_Std_Cap_FT,    !- Total Cooling Capacity Function of Temperature Curve Name
+    DOAS_DX_Coil_Cap_FF,      !- Total Cooling Capacity Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_Std_EIR_FT,    !- Energy Input Ratio Function of Temperature Curve Name
+    DOAS_DX_Coil_EIR_FF,      !- Energy Input Ratio Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_PLF,         !- Part Load Fraction Correlation Curve Name
+    ,                         !- Nominal Time for Condensate Removal to Begin
+    ,                         !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity
+    ,                         !- Maximum Cycling Rate
+    ,                         !- Latent Capacity Time Constant
+    ,                         !- Condenser Air Inlet Node Name
+    ,                         !- Condenser Type
+    ,                         !- Evaporative Condenser Effectiveness
+    ,                         !- Evaporative Condenser Air Flow Rate
+    ;                         !- Evaporative Condenser Pump Rated Power Consumption
+
+COILPERFORMANCE:DX:COOLING,
+    DOAS_Dehumid_Perf_1,      !- Name
+    autosize,                 !- Gross Rated Total Cooling Capacity
+    autosize,                 !- Gross Rated Sensible Heat Ratio
+    3.58,                     !- Gross Rated Cooling COP
+    autosize,                 !- Rated Air Flow Rate
+    0.0,                      !- Fraction of Air Flow Bypassed Around Coil
+    DOAS_DX_Coil_Dehum_Cap_FT,    !- Total Cooling Capacity Function of Temperature Curve Name
+    DOAS_DX_Coil_Cap_FF,      !- Total Cooling Capacity Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_Dehum_EIR_FT,    !- Energy Input Ratio Function of Temperature Curve Name
+    DOAS_DX_Coil_EIR_FF,      !- Energy Input Ratio Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_PLF,         !- Part Load Fraction Correlation Curve Name
+    ,                         !- Nominal Time for Condensate Removal to Begin
+    ,                         !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity
+    ,                         !- Maximum Cycling Rate
+    ,                         !- Latent Capacity Time Constant
+    ,                         !- Condenser Air Inlet Node Name
+    ,                         !- Condenser Type
+    ,                         !- Evaporative Condenser Effectiveness
+    ,                         !- Evaporative Condenser Air Flow Rate
+    ;                         !- Evaporative Condenser Pump Rated Power Consumption
+
+CoilPerformance:DX:Cooling,
+    DOAS_Dehumid_Perf_1+2,    !- Name
+    autosize,                 !- Gross Rated Total Cooling Capacity
+    autosize,                 !- Gross Rated Sensible Heat Ratio
+    3.58,                     !- Gross Rated Cooling COP
+    autosize,                 !- Rated Air Flow Rate
+    0.0,                      !- Fraction of Air Flow Bypassed Around Coil
+    DOAS_DX_Coil_Dehum_Cap_FT,    !- Total Cooling Capacity Function of Temperature Curve Name
+    DOAS_DX_Coil_Cap_FF,      !- Total Cooling Capacity Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_Dehum_EIR_FT,    !- Energy Input Ratio Function of Temperature Curve Name
+    DOAS_DX_Coil_EIR_FF,      !- Energy Input Ratio Function of Flow Fraction Curve Name
+    DOAS_DX_Coil_PLF,         !- Part Load Fraction Correlation Curve Name
+    ,                         !- Nominal Time for Condensate Removal to Begin
+    ,                         !- Ratio of Initial Moisture Evaporation Rate and Steady State Latent Capacity
+    ,                         !- Maximum Cycling Rate
+    ,                         !- Latent Capacity Time Constant
+    ,                         !- Condenser Air Inlet Node Name
+    ,                         !- Condenser Type
+    ,                         !- Evaporative Condenser Effectiveness
+    ,                         !- Evaporative Condenser Air Flow Rate
+    ;                         !- Evaporative Condenser Pump Rated Power Consumption
+
+Coil:Heating:Water,
+    DOAS_HW_WaterCoil,        !- Name
+    Sch_HVAC_coil,            !- Availability Schedule Name
+    autosize,                 !- UFactor Times Area Value
+    autosize,                 !- Maximum Water Flow Rate
+    HC_Water_Inlet,           !- Water Inlet Node Name
+    HC_Water_Outlet,          !- Water Outlet Node Name
+    DX_Coil_Outlet,           !- Air Inlet Node Name
+    HC_Air_Outlet,            !- Air Outlet Node Name
+    UfactorTimesAreaAndDesignWaterFlowRate,    !- Performance Input Method
+    autosize,                 !- Rated Capacity
+    82.2,                     !- Rated Inlet Water Temperature
+    16.6,                     !- Rated Inlet Air Temperature
+    71.1,                     !- Rated Outlet Water Temperature
+    32.2,                     !- Rated Outlet Air Temperature
+    0.5;                      !- Rated Ratio for Air and Water Convection
+
+CoilSystem:Cooling:DX,
+    DOAS_ChW_WaterCoil,       !- Name
+    Sch_HVAC_coil,            !- Availability Schedule Name
+    Fan_Outlet,               !- DX Cooling Coil System Inlet Node Name
+    DX_Coil_Outlet,           !- DX Cooling Coil System Outlet Node Name
+    DX_Coil_Outlet,           !- DX Cooling Coil System Sensor Node Name
+    Coil:Cooling:DX:TwoStageWithHumidityControlMode,    !- Cooling Coil Object Type
+    DOAS_ChW_WaterCoil_Cooling_Coil,    !- Cooling Coil Name
+    CoolReheat,               !- Dehumidification Control Type
+    Yes,                      !- Run on Sensible Load
+    Yes,                      !- Run on Latent Load
+    Yes,                      !- Use Outdoor Air DX Cooling Coil
+    2.0;                      !- Outdoor Air DX Cooling Coil Leaving Minimum Air Temperature
+
+Controller:WaterCoil,
+    DOAS_HW_WaterCoil_HW_Coil_Controller,    !- Name
+    Temperature,              !- Control Variable
+    Normal,                   !- Action
+    Flow,                     !- Actuator Variable
+    HC_Air_Outlet,            !- Sensor Node Name
+    HC_Water_Inlet,           !- Actuator Node Name
+    autosize,                 !- Controller Convergence Tolerance
+    autosize,                 !- Maximum Actuated Flow
+    1e-11;                    !- Minimum Actuated Flow
+
+Controller:OutdoorAir,
+    OA_System_OA_Controller,    !- Name
+    OA_System_ReliefAir_Outlet_Node,    !- Relief Air Outlet Node Name
+    OA_System_Return_AirMixer_Inlet_Node,    !- Return Air Node Name
+    MixedAir_Node,            !- Mixed Air Node Name
+    OA_Inlet_Node,            !- Actuator Node Name
+    autosize,                 !- Minimum Outdoor Air Flow Rate
+    autosize,                 !- Maximum Outdoor Air Flow Rate
+    NoEconomizer,             !- Economizer Control Type
+    ,                         !- Economizer Control Action Type
+    ,                         !- Economizer Maximum Limit DryBulb Temperature
+    ,                         !- Economizer Maximum Limit Enthalpy
+    ,                         !- Economizer Maximum Limit Dewpoint Temperature
+    ,                         !- Electronic Enthalpy Limit Curve Name
+    ,                         !- Economizer Minimum Limit DryBulb Temperature
+    NoLockout,                !- Lockout Type
+    FixedMinimum,             !- Minimum Limit Type
+    Sch_OA_Fraction,          !- Minimum Outdoor Air Schedule Name
+    ,                         !- Minimum Fraction of Outdoor Air Schedule Name
+    ,                         !- Maximum Fraction of Outdoor Air Schedule Name
+    ,                         !- Mechanical Ventilation Controller Name
+    ,                         !- Time of Day Economizer Control Schedule Name
+    No,                       !- High Humidity Control
+    ,                         !- Humidistat Control Zone Name
+    1.0,                      !- High Humidity Outdoor Air Flow Ratio
+    Yes,                      !- Control High Indoor Humidity Based on Outdoor Humidity Ratio
+    BypassWhenWithinEconomizerLimits;    !- Heat Recovery Bypass Control Type
+
+AirLoopHVAC:ControllerList,
+    OA_System_Controllers,    !- Name
+    Controller:OutdoorAir,    !- Controller 1 Object Type
+    OA_System_OA_Controller;    !- Controller 1 Name
+
+AirLoopHVAC:ControllerList,
+    DOAS_Air_Loop_Controllers,    !- Name
+    Controller:WaterCoil,     !- Controller 1 Object Type
+    DOAS_HW_WaterCoil_HW_Coil_Controller;    !- Controller 1 Name
+
+AirLoopHVAC,
+    DOAS,                     !- Name
+    DOAS_Air_Loop_Controllers,    !- Controller List Name
+    ,                         !- Availability Manager List Name
+    autosize,                 !- Design Supply Air Flow Rate
+    DOAS_Air_Loop_Branches,    !- Branch List Name
+    ,                         !- Connector List Name
+    OA_System_Return_AirMixer_Inlet_Node,    !- Supply Side Inlet Node Name
+    DOAS_Zone_Return_AirPath_Outlet_Node,    !- Demand Side Outlet Node Name
+    DOAS_Zone_Supply_AirPath_Inlet_Node,    !- Demand Side Inlet Node Names
+    HC_Air_Outlet,            !- Supply Side Outlet Node Names
+    1.0;                      !- Design Return Air Flow Fraction of Supply Air Flow
+
+AirLoopHVAC:OutdoorAirSystem:EquipmentList,
+    OA_System_Equipment,      !- Name
+    OutdoorAir:Mixer,         !- Component 1 Object Type
+    OA_System_Mixing_Box;     !- Component 1 Name
+
+AirLoopHVAC:OutdoorAirSystem,
+    OA_System,                !- Name
+    OA_System_Controllers,    !- Controller List Name
+    OA_System_Equipment,      !- Outdoor Air Equipment List Name
+    OA_System_OA_Availability_list;    !- Availability Manager List Name
+
+OutdoorAir:Mixer,
+    OA_System_Mixing_Box,     !- Name
+    MixedAir_Node,            !- Mixed Air Node Name
+    OA_Inlet_Node,            !- Outdoor Air Stream Node Name
+    OA_System_ReliefAir_Outlet_Node,    !- Relief Air Stream Node Name
+    OA_System_Return_AirMixer_Inlet_Node;    !- Return Air Stream Node Name
+
+AirLoopHVAC:ZoneSplitter,
+    DOAS_Zone_Supply_Splitter,    !- Name
+    DOAS_Zone_Supply_AirPath_Inlet_Node,    !- Inlet Node Name
+    RAD_zone_AirTerminal_Inlet_Node;    !- Outlet 1 Node Name
+
+AirLoopHVAC:SupplyPath,
+    DOAS_Supply_AirPath,      !- Name
+    DOAS_Zone_Supply_AirPath_Inlet_Node,    !- Supply Air Path Inlet Node Name
+    AirLoopHVAC:ZoneSplitter,    !- Component 1 Object Type
+    DOAS_Zone_Supply_Splitter;    !- Component 1 Name
+
+AirLoopHVAC:ZoneMixer,
+    DOAS_Zone_Return_Mixer,    !- Name
+    DOAS_Zone_Return_AirPath_Outlet_Node,    !- Outlet Node Name
+    RAD_zone_Zone_Air_Outlet_Node;    !- Inlet 1 Node Name
+
+AirLoopHVAC:ReturnPath,
+    DOAS_Return_AirPath,      !- Name
+    DOAS_Zone_Return_AirPath_Outlet_Node,    !- Return Air Path Outlet Node Name
+    AirLoopHVAC:ZoneMixer,    !- Component 1 Object Type
+    DOAS_Zone_Return_Mixer;    !- Component 1 Name
+
+Branch,
+    RAD_zone_Radiant_System_ChW_Radiant_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:LowTemperatureRadiant:VariableFlow,    !- Component 1 Object Type
+    RAD_zone_Radiant_System,    !- Component 1 Name
+    RAD_zone_Radiant_System_ChW_Inlet_Node,    !- Component 1 Inlet Node Name
+    RAD_zone_Radiant_System_ChW_Outlet_Node;    !- Component 1 Outlet Node Name
+
+Branch,
+    RAD_zone_Radiant_System_HW_Radiant_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    ZoneHVAC:LowTemperatureRadiant:VariableFlow,    !- Component 1 Object Type
+    RAD_zone_Radiant_System,    !- Component 1 Name
+    RAD_zone_Radiant_System_HW_Inlet_Node,    !- Component 1 Inlet Node Name
+    RAD_zone_Radiant_System_HW_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCH,
+    Radiant_System_ChW_Supply_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Radiant_System_ChW_Plant_Loop_Pump,    !- Component 1 Name
+    Radiant_System_ChW_PlantLoop_Supply_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_ChW_Supply_Water_Inlet_Node,    !- Component 1 Outlet Node Name
+    DistrictCooling,          !- Component 2 Object Type
+    Radiant_System_ChW_District_Plant,    !- Component 2 Name
+    Radiant_System_ChW_Supply_Water_Inlet_Node,    !- Component 2 Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Supply_Outlet_Node;    !- Component 2 Outlet Node Name
+
+BRANCH,
+    Radiant_System_ChW_Demand_Inlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_ChW_Demand_Inlet_Pipe,    !- Component 1 Name
+    Radiant_System_ChW_PlantLoop_Demand_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_ChW_Demand_Inlet_Pipe_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCH,
+    Radiant_System_ChW_Demand_Outlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_ChW_Demand_Outlet_Pipe,    !- Component 1 Name
+    Radiant_System_ChW_Demand_Outlet_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Demand_Outlet_Node;    !- Component 1 Outlet Node Name
+
+Branch,
+    Radiant_System_ChW_Demand_ByPass_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_ChW_Demand_ByPass,    !- Component 1 Name
+    Radiant_System_ChW_Demand_ByPass_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_ChW_Demand_ByPass_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCH,
+    Radiant_System_HW_Supply_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    Radiant_System_HW_Plant_Loop_Pump,    !- Component 1 Name
+    Radiant_System_HW_PlantLoop_Supply_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_HW_Supply_Water_Inlet_Node,    !- Component 1 Outlet Node Name
+    DistrictHeating,          !- Component 2 Object Type
+    Radiant_System_HW_District_Plant,    !- Component 2 Name
+    Radiant_System_HW_Supply_Water_Inlet_Node,    !- Component 2 Inlet Node Name
+    Radiant_System_HW_PlantLoop_Supply_Outlet_Node;    !- Component 2 Outlet Node Name
+
+BRANCH,
+    Radiant_System_HW_Demand_Inlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_HW_Demand_Inlet_Pipe,    !- Component 1 Name
+    Radiant_System_HW_PlantLoop_Demand_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_HW_Demand_Inlet_Pipe_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCH,
+    Radiant_System_HW_Demand_Outlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_HW_Demand_Outlet_Pipe,    !- Component 1 Name
+    Radiant_System_HW_Demand_Outlet_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_HW_PlantLoop_Demand_Outlet_Node;    !- Component 1 Outlet Node Name
+
+Branch,
+    Radiant_System_HW_Demand_ByPass_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    Radiant_System_HW_Demand_ByPass,    !- Component 1 Name
+    Radiant_System_HW_Demand_ByPass_Inlet_Node,    !- Component 1 Inlet Node Name
+    Radiant_System_HW_Demand_ByPass_Outlet_Node;    !- Component 1 Outlet Node Name
+
+Branch,
+    DOAS_Air_Loop_Branch,     !- Name
+    ,                         !- Pressure Drop Curve Name
+    AirLoopHVAC:OutdoorAirSystem,    !- Component 1 Object Type
+    OA_System,                !- Component 1 Name
+    OA_System_Return_AirMixer_Inlet_Node,    !- Component 1 Inlet Node Name
+    MixedAir_Node,            !- Component 1 Outlet Node Name
+    Fan:VariableVolume,       !- Component 2 Object Type
+    DOAS_Fan,                 !- Component 2 Name
+    MixedAir_Node,            !- Component 2 Inlet Node Name
+    Fan_Outlet,               !- Component 2 Outlet Node Name
+    CoilSystem:Cooling:DX,    !- Component 3 Object Type
+    DOAS_ChW_WaterCoil,       !- Component 3 Name
+    Fan_Outlet,               !- Component 3 Inlet Node Name
+    DX_Coil_Outlet,           !- Component 3 Outlet Node Name
+    Coil:Heating:Water,       !- Component 4 Object Type
+    DOAS_HW_WaterCoil,        !- Component 4 Name
+    DX_Coil_Outlet,           !- Component 4 Inlet Node Name
+    HC_Air_Outlet;            !- Component 4 Outlet Node Name
+
+Branch,
+    DOAS_HW_WaterCoil_HW_Coil_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Coil:Heating:Water,       !- Component 1 Object Type
+    DOAS_HW_WaterCoil,        !- Component 1 Name
+    HC_Water_Inlet,           !- Component 1 Inlet Node Name
+    HC_Water_Outlet;          !- Component 1 Outlet Node Name
+
+BRANCH,
+    DOAS_HW_Supply_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pump:VariableSpeed,       !- Component 1 Object Type
+    DOAS_HW_Plant_Loop_Pump,    !- Component 1 Name
+    DOAS_HW_PlantLoop_Supply_Inlet_Node,    !- Component 1 Inlet Node Name
+    DOAS_HW_Supply_Water_Inlet_Node,    !- Component 1 Outlet Node Name
+    DistrictHeating,          !- Component 2 Object Type
+    DOAS_HW_District_Plant,    !- Component 2 Name
+    DOAS_HW_Supply_Water_Inlet_Node,    !- Component 2 Inlet Node Name
+    DOAS_HW_PlantLoop_Supply_Outlet_Node;    !- Component 2 Outlet Node Name
+
+BRANCH,
+    DOAS_HW_Demand_Inlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    DOAS_HW_Demand_Inlet_Pipe,    !- Component 1 Name
+    DOAS_HW_PlantLoop_Demand_Inlet_Node,    !- Component 1 Inlet Node Name
+    DOAS_HW_Demand_Inlet_Pipe_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCH,
+    DOAS_HW_Demand_Outlet_Pipe_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    DOAS_HW_Demand_Outlet_Pipe,    !- Component 1 Name
+    DOAS_HW_Demand_Outlet_Inlet_Node,    !- Component 1 Inlet Node Name
+    DOAS_HW_PlantLoop_Demand_Outlet_Node;    !- Component 1 Outlet Node Name
+
+Branch,
+    DOAS_HW_Demand_ByPass_Branch,    !- Name
+    ,                         !- Pressure Drop Curve Name
+    Pipe:Adiabatic,           !- Component 1 Object Type
+    DOAS_HW_Demand_ByPass,    !- Component 1 Name
+    DOAS_HW_Demand_ByPass_Inlet_Node,    !- Component 1 Inlet Node Name
+    DOAS_HW_Demand_ByPass_Outlet_Node;    !- Component 1 Outlet Node Name
+
+BRANCHLIST,
+    Radiant_System_ChW_PlantLoop_Supply_Branch_List,    !- Name
+    Radiant_System_ChW_Supply_Branch;    !- Branch 1 Name
+
+BranchList,
+    Radiant_System_ChW_PlantLoop_Demand_Branch_List,    !- Name
+    Radiant_System_ChW_Demand_Inlet_Pipe_Branch,    !- Branch 1 Name
+    Radiant_System_ChW_Demand_ByPass_Branch,    !- Branch 2 Name
+    RAD_zone_Radiant_System_ChW_Radiant_Branch,    !- Branch 3 Name
+    Radiant_System_ChW_Demand_Outlet_Pipe_Branch;    !- Branch 4 Name
+
+BRANCHLIST,
+    Radiant_System_HW_PlantLoop_Supply_Branch_List,    !- Name
+    Radiant_System_HW_Supply_Branch;    !- Branch 1 Name
+
+BranchList,
+    Radiant_System_HW_PlantLoop_Demand_Branch_List,    !- Name
+    Radiant_System_HW_Demand_Inlet_Pipe_Branch,    !- Branch 1 Name
+    Radiant_System_HW_Demand_ByPass_Branch,    !- Branch 2 Name
+    RAD_zone_Radiant_System_HW_Radiant_Branch,    !- Branch 3 Name
+    Radiant_System_HW_Demand_Outlet_Pipe_Branch;    !- Branch 4 Name
+
+BranchList,
+    DOAS_Air_Loop_Branches,    !- Name
+    DOAS_Air_Loop_Branch;     !- Branch 1 Name
+
+BRANCHLIST,
+    DOAS_HW_PlantLoop_Supply_Branch_List,    !- Name
+    DOAS_HW_Supply_Branch;    !- Branch 1 Name
+
+BranchList,
+    DOAS_HW_PlantLoop_Demand_Branch_List,    !- Name
+    DOAS_HW_Demand_Inlet_Pipe_Branch,    !- Branch 1 Name
+    DOAS_HW_Demand_ByPass_Branch,    !- Branch 2 Name
+    DOAS_HW_WaterCoil_HW_Coil_Branch,    !- Branch 3 Name
+    DOAS_HW_Demand_Outlet_Pipe_Branch;    !- Branch 4 Name
+
+Connector:Splitter,
+    Radiant_System_ChW_Demand_Loop_Splitter,    !- Name
+    Radiant_System_ChW_Demand_Inlet_Pipe_Branch,    !- Inlet Branch Name
+    Radiant_System_ChW_Demand_ByPass_Branch,    !- Outlet Branch 1 Name
+    RAD_zone_Radiant_System_ChW_Radiant_Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    Radiant_System_HW_Demand_Loop_Splitter,    !- Name
+    Radiant_System_HW_Demand_Inlet_Pipe_Branch,    !- Inlet Branch Name
+    Radiant_System_HW_Demand_ByPass_Branch,    !- Outlet Branch 1 Name
+    RAD_zone_Radiant_System_HW_Radiant_Branch;    !- Outlet Branch 2 Name
+
+Connector:Splitter,
+    DOAS_HW_Demand_Loop_Splitter,    !- Name
+    DOAS_HW_Demand_Inlet_Pipe_Branch,    !- Inlet Branch Name
+    DOAS_HW_Demand_ByPass_Branch,    !- Outlet Branch 1 Name
+    DOAS_HW_WaterCoil_HW_Coil_Branch;    !- Outlet Branch 2 Name
+
+Connector:Mixer,
+    Radiant_System_ChW_Demand_Loop_Mixer,    !- Name
+    Radiant_System_ChW_Demand_Outlet_Pipe_Branch,    !- Outlet Branch Name
+    Radiant_System_ChW_Demand_ByPass_Branch,    !- Inlet Branch 1 Name
+    RAD_zone_Radiant_System_ChW_Radiant_Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    Radiant_System_HW_Demand_Loop_Mixer,    !- Name
+    Radiant_System_HW_Demand_Outlet_Pipe_Branch,    !- Outlet Branch Name
+    Radiant_System_HW_Demand_ByPass_Branch,    !- Inlet Branch 1 Name
+    RAD_zone_Radiant_System_HW_Radiant_Branch;    !- Inlet Branch 2 Name
+
+Connector:Mixer,
+    DOAS_HW_Demand_Loop_Mixer,    !- Name
+    DOAS_HW_Demand_Outlet_Pipe_Branch,    !- Outlet Branch Name
+    DOAS_HW_Demand_ByPass_Branch,    !- Inlet Branch 1 Name
+    DOAS_HW_WaterCoil_HW_Coil_Branch;    !- Inlet Branch 2 Name
+
+ConnectorList,
+    Radiant_System_ChW_PlantLoop_Demand_Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Radiant_System_ChW_Demand_Loop_Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Radiant_System_ChW_Demand_Loop_Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    Radiant_System_HW_PlantLoop_Demand_Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    Radiant_System_HW_Demand_Loop_Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    Radiant_System_HW_Demand_Loop_Mixer;    !- Connector 2 Name
+
+ConnectorList,
+    DOAS_HW_PlantLoop_Demand_Connectors,    !- Name
+    Connector:Splitter,       !- Connector 1 Object Type
+    DOAS_HW_Demand_Loop_Splitter,    !- Connector 1 Name
+    Connector:Mixer,          !- Connector 2 Object Type
+    DOAS_HW_Demand_Loop_Mixer;    !- Connector 2 Name
+
+Nodelist,
+    Radiant_System_ChW_PlantLoop_Node_list,    !- Name
+    Radiant_System_ChW_PlantLoop_Supply_Outlet_Node;    !- Node 1 Name
+
+Nodelist,
+    Radiant_System_HW_PlantLoop_Node_list,    !- Name
+    Radiant_System_HW_PlantLoop_Supply_Outlet_Node;    !- Node 1 Name
+
+NodeList,
+    OA_Inlet_NodeList,        !- Name
+    OA_Inlet_Node;            !- Node 1 Name
+
+Nodelist,
+    DOAS_HW_PlantLoop_Node_list,    !- Name
+    DOAS_HW_PlantLoop_Supply_Outlet_Node;    !- Node 1 Name
+
+NODELIST,
+    DOAS_Heating_Setpoint_Nodes,    !- Name
+    HC_Air_Outlet;            !- Node 1 Name
+
+NodeList,
+    DOAS_Cooling_Setpoint_Nodes,    !- Name
+    DX_Coil_Outlet;           !- Node 1 Name
+
+OutdoorAir:NodeList,
+    OA_Inlet_NodeList;        !- Node or NodeList Name 1
+
+PIPE:ADIABATIC,
+    Radiant_System_ChW_Demand_Inlet_Pipe,    !- Name
+    Radiant_System_ChW_PlantLoop_Demand_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_ChW_Demand_Inlet_Pipe_Outlet_Node;    !- Outlet Node Name
+
+PIPE:ADIABATIC,
+    Radiant_System_ChW_Demand_Outlet_Pipe,    !- Name
+    Radiant_System_ChW_Demand_Outlet_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Demand_Outlet_Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Radiant_System_ChW_Demand_ByPass,    !- Name
+    Radiant_System_ChW_Demand_ByPass_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_ChW_Demand_ByPass_Outlet_Node;    !- Outlet Node Name
+
+PIPE:ADIABATIC,
+    Radiant_System_HW_Demand_Inlet_Pipe,    !- Name
+    Radiant_System_HW_PlantLoop_Demand_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_HW_Demand_Inlet_Pipe_Outlet_Node;    !- Outlet Node Name
+
+PIPE:ADIABATIC,
+    Radiant_System_HW_Demand_Outlet_Pipe,    !- Name
+    Radiant_System_HW_Demand_Outlet_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_HW_PlantLoop_Demand_Outlet_Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    Radiant_System_HW_Demand_ByPass,    !- Name
+    Radiant_System_HW_Demand_ByPass_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_HW_Demand_ByPass_Outlet_Node;    !- Outlet Node Name
+
+PIPE:ADIABATIC,
+    DOAS_HW_Demand_Inlet_Pipe,    !- Name
+    DOAS_HW_PlantLoop_Demand_Inlet_Node,    !- Inlet Node Name
+    DOAS_HW_Demand_Inlet_Pipe_Outlet_Node;    !- Outlet Node Name
+
+PIPE:ADIABATIC,
+    DOAS_HW_Demand_Outlet_Pipe,    !- Name
+    DOAS_HW_Demand_Outlet_Inlet_Node,    !- Inlet Node Name
+    DOAS_HW_PlantLoop_Demand_Outlet_Node;    !- Outlet Node Name
+
+Pipe:Adiabatic,
+    DOAS_HW_Demand_ByPass,    !- Name
+    DOAS_HW_Demand_ByPass_Inlet_Node,    !- Inlet Node Name
+    DOAS_HW_Demand_ByPass_Outlet_Node;    !- Outlet Node Name
+
+Pump:VariableSpeed,
+    Radiant_System_ChW_Plant_Loop_Pump,    !- Name
+    Radiant_System_ChW_PlantLoop_Supply_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_ChW_Supply_Water_Inlet_Node,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    192850.0,                 !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.865,                    !- Motor Efficiency
+    0.0,                      !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0,                      !- Coefficient 1 of the Part Load Performance Curve
+    1.0,                      !- Coefficient 2 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 3 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 4 of the Part Load Performance Curve
+    0.0,                      !- Design Minimum Flow Rate
+    Intermittent,             !- Pump Control Type
+    ,                         !- Pump Flow Rate Schedule Name
+    ,                         !- Pump Curve Name
+    ,                         !- Impeller Diameter
+    ,                         !- VFD Control Type
+    ,                         !- Pump rpm Schedule Name
+    ,                         !- Minimum Pressure Schedule
+    ,                         !- Maximum Pressure Schedule
+    ,                         !- Minimum RPM Schedule
+    ,                         !- Maximum RPM Schedule
+    ,                         !- Zone Name
+    ,                         !- Skin Loss Radiative Fraction
+    PowerPerFlowPerPressure,    !- Design Power Sizing Method
+    348701.1,                 !- Design Electric Power per Unit Flow Rate
+    1.282051282,              !- Design Shaft Power per Unit Flow Rate per Unit Head
+    0.0;                      !- Design Minimum Flow Rate Fraction
+
+Pump:VariableSpeed,
+    Radiant_System_HW_Plant_Loop_Pump,    !- Name
+    Radiant_System_HW_PlantLoop_Supply_Inlet_Node,    !- Inlet Node Name
+    Radiant_System_HW_Supply_Water_Inlet_Node,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    192850.0,                 !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.865,                    !- Motor Efficiency
+    0.0,                      !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0,                      !- Coefficient 1 of the Part Load Performance Curve
+    1.0,                      !- Coefficient 2 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 3 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 4 of the Part Load Performance Curve
+    0.0,                      !- Design Minimum Flow Rate
+    Intermittent,             !- Pump Control Type
+    ,                         !- Pump Flow Rate Schedule Name
+    ,                         !- Pump Curve Name
+    ,                         !- Impeller Diameter
+    ,                         !- VFD Control Type
+    ,                         !- Pump rpm Schedule Name
+    ,                         !- Minimum Pressure Schedule
+    ,                         !- Maximum Pressure Schedule
+    ,                         !- Minimum RPM Schedule
+    ,                         !- Maximum RPM Schedule
+    ,                         !- Zone Name
+    ,                         !- Skin Loss Radiative Fraction
+    PowerPerFlowPerPressure,    !- Design Power Sizing Method
+    348701.1,                 !- Design Electric Power per Unit Flow Rate
+    1.282051282,              !- Design Shaft Power per Unit Flow Rate per Unit Head
+    0.0;                      !- Design Minimum Flow Rate Fraction
+
+Pump:VariableSpeed,
+    DOAS_HW_Plant_Loop_Pump,    !- Name
+    DOAS_HW_PlantLoop_Supply_Inlet_Node,    !- Inlet Node Name
+    DOAS_HW_Supply_Water_Inlet_Node,    !- Outlet Node Name
+    autosize,                 !- Design Maximum Flow Rate
+    1e-05,                    !- Design Pump Head
+    autosize,                 !- Design Power Consumption
+    0.865,                    !- Motor Efficiency
+    0.0,                      !- Fraction of Motor Inefficiencies to Fluid Stream
+    0.0,                      !- Coefficient 1 of the Part Load Performance Curve
+    1.0,                      !- Coefficient 2 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 3 of the Part Load Performance Curve
+    0.0,                      !- Coefficient 4 of the Part Load Performance Curve
+    0.0,                      !- Design Minimum Flow Rate
+    Intermittent,             !- Pump Control Type
+    ,                         !- Pump Flow Rate Schedule Name
+    ,                         !- Pump Curve Name
+    ,                         !- Impeller Diameter
+    ,                         !- VFD Control Type
+    ,                         !- Pump rpm Schedule Name
+    ,                         !- Minimum Pressure Schedule
+    ,                         !- Maximum Pressure Schedule
+    ,                         !- Minimum RPM Schedule
+    ,                         !- Maximum RPM Schedule
+    ,                         !- Zone Name
+    ,                         !- Skin Loss Radiative Fraction
+    PowerPerFlowPerPressure,    !- Design Power Sizing Method
+    348701.1,                 !- Design Electric Power per Unit Flow Rate
+    1.282051282,              !- Design Shaft Power per Unit Flow Rate per Unit Head
+    0.0;                      !- Design Minimum Flow Rate Fraction
+
+DistrictCooling,
+    Radiant_System_ChW_District_Plant,    !- Name
+    Radiant_System_ChW_Supply_Water_Inlet_Node,    !- Chilled Water Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Supply_Outlet_Node,    !- Chilled Water Outlet Node Name
+    100000000.0;              !- Nominal Capacity
+
+DistrictHeating,
+    Radiant_System_HW_District_Plant,    !- Name
+    Radiant_System_HW_Supply_Water_Inlet_Node,    !- Hot Water Inlet Node Name
+    Radiant_System_HW_PlantLoop_Supply_Outlet_Node,    !- Hot Water Outlet Node Name
+    100000000.0;              !- Nominal Capacity
+
+DistrictHeating,
+    DOAS_HW_District_Plant,    !- Name
+    DOAS_HW_Supply_Water_Inlet_Node,    !- Hot Water Inlet Node Name
+    DOAS_HW_PlantLoop_Supply_Outlet_Node,    !- Hot Water Outlet Node Name
+    100000000.0;              !- Nominal Capacity
+
+PlantLoop,
+    Radiant_System_ChW_PlantLoop,    !- Name
+    water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Radiant_System_ChW_PlantLoop_Operation,    !- Plant Equipment Operation Scheme Name
+    Radiant_System_ChW_PlantLoop_Supply_Outlet_Node,    !- Loop Temperature Setpoint Node Name
+    100.0,                    !- Maximum Loop Temperature
+    3.0,                      !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0.0,                      !- Minimum Loop Flow Rate
+    autocalculate,            !- Plant Loop Volume
+    Radiant_System_ChW_PlantLoop_Supply_Inlet_Node,    !- Plant Side Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Supply_Outlet_Node,    !- Plant Side Outlet Node Name
+    Radiant_System_ChW_PlantLoop_Supply_Branch_List,    !- Plant Side Branch List Name
+    ,                         !- Plant Side Connector List Name
+    Radiant_System_ChW_PlantLoop_Demand_Inlet_Node,    !- Demand Side Inlet Node Name
+    Radiant_System_ChW_PlantLoop_Demand_Outlet_Node,    !- Demand Side Outlet Node Name
+    Radiant_System_ChW_PlantLoop_Demand_Branch_List,    !- Demand Side Branch List Name
+    Radiant_System_ChW_PlantLoop_Demand_Connectors,    !- Demand Side Connector List Name
+    Optimal,                  !- Load Distribution Scheme
+    ,                         !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None,                     !- Common Pipe Simulation
+    None,                     !- Pressure Simulation Type
+    2.0;                      !- Loop Circulation Time
+
+PlantLoop,
+    Radiant_System_HW_PlantLoop,    !- Name
+    water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    Radiant_System_HW_PlantLoop_Operation,    !- Plant Equipment Operation Scheme Name
+    Radiant_System_HW_PlantLoop_Supply_Outlet_Node,    !- Loop Temperature Setpoint Node Name
+    100.0,                    !- Maximum Loop Temperature
+    3.0,                      !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0.0,                      !- Minimum Loop Flow Rate
+    autocalculate,            !- Plant Loop Volume
+    Radiant_System_HW_PlantLoop_Supply_Inlet_Node,    !- Plant Side Inlet Node Name
+    Radiant_System_HW_PlantLoop_Supply_Outlet_Node,    !- Plant Side Outlet Node Name
+    Radiant_System_HW_PlantLoop_Supply_Branch_List,    !- Plant Side Branch List Name
+    ,                         !- Plant Side Connector List Name
+    Radiant_System_HW_PlantLoop_Demand_Inlet_Node,    !- Demand Side Inlet Node Name
+    Radiant_System_HW_PlantLoop_Demand_Outlet_Node,    !- Demand Side Outlet Node Name
+    Radiant_System_HW_PlantLoop_Demand_Branch_List,    !- Demand Side Branch List Name
+    Radiant_System_HW_PlantLoop_Demand_Connectors,    !- Demand Side Connector List Name
+    Optimal,                  !- Load Distribution Scheme
+    ,                         !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None,                     !- Common Pipe Simulation
+    None,                     !- Pressure Simulation Type
+    2.0;                      !- Loop Circulation Time
+
+PlantLoop,
+    DOAS_HW_PlantLoop,        !- Name
+    water,                    !- Fluid Type
+    ,                         !- User Defined Fluid Type
+    DOAS_HW_PlantLoop_Operation,    !- Plant Equipment Operation Scheme Name
+    DOAS_HW_PlantLoop_Supply_Outlet_Node,    !- Loop Temperature Setpoint Node Name
+    100.0,                    !- Maximum Loop Temperature
+    3.0,                      !- Minimum Loop Temperature
+    autosize,                 !- Maximum Loop Flow Rate
+    0.0,                      !- Minimum Loop Flow Rate
+    autocalculate,            !- Plant Loop Volume
+    DOAS_HW_PlantLoop_Supply_Inlet_Node,    !- Plant Side Inlet Node Name
+    DOAS_HW_PlantLoop_Supply_Outlet_Node,    !- Plant Side Outlet Node Name
+    DOAS_HW_PlantLoop_Supply_Branch_List,    !- Plant Side Branch List Name
+    ,                         !- Plant Side Connector List Name
+    DOAS_HW_PlantLoop_Demand_Inlet_Node,    !- Demand Side Inlet Node Name
+    DOAS_HW_PlantLoop_Demand_Outlet_Node,    !- Demand Side Outlet Node Name
+    DOAS_HW_PlantLoop_Demand_Branch_List,    !- Demand Side Branch List Name
+    DOAS_HW_PlantLoop_Demand_Connectors,    !- Demand Side Connector List Name
+    Optimal,                  !- Load Distribution Scheme
+    ,                         !- Availability Manager List Name
+    SingleSetpoint,           !- Plant Loop Demand Calculation Scheme
+    None,                     !- Common Pipe Simulation
+    None,                     !- Pressure Simulation Type
+    2.0;                      !- Loop Circulation Time
+
+PlantEquipmentList,
+    Radiant_System_ChW_Plant_Equipment_List,    !- Name
+    DistrictCooling,          !- Equipment 1 Object Type
+    Radiant_System_ChW_District_Plant;    !- Equipment 1 Name
+
+PlantEquipmentList,
+    Radiant_System_HW_Plant_Equipment_List,    !- Name
+    DistrictHeating,          !- Equipment 1 Object Type
+    Radiant_System_HW_District_Plant;    !- Equipment 1 Name
+
+PlantEquipmentList,
+    DOAS_HW_Plant_Equipment_List,    !- Name
+    DistrictHeating,          !- Equipment 1 Object Type
+    DOAS_HW_District_Plant;    !- Equipment 1 Name
+
+PlantEquipmentOperation:CoolingLoad,
+    Radiant_System_ChW_Purchased_Only,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    100000000.0,              !- Load Range 1 Upper Limit
+    Radiant_System_ChW_Plant_Equipment_List;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    Radiant_System_HW_Purchased_Only,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    100000000.0,              !- Load Range 1 Upper Limit
+    Radiant_System_HW_Plant_Equipment_List;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperation:HeatingLoad,
+    DOAS_HW_Purchased_Only,    !- Name
+    0.0,                      !- Load Range 1 Lower Limit
+    100000000.0,              !- Load Range 1 Upper Limit
+    DOAS_HW_Plant_Equipment_List;    !- Range 1 Equipment List Name
+
+PlantEquipmentOperationSchemes,
+    Radiant_System_ChW_PlantLoop_Operation,    !- Name
+    PlantEquipmentOperation:CoolingLoad,    !- Control Scheme 1 Object Type
+    Radiant_System_ChW_Purchased_Only,    !- Control Scheme 1 Name
+    Sch_Plant;                !- Control Scheme 1 Schedule Name
+
+PlantEquipmentOperationSchemes,
+    Radiant_System_HW_PlantLoop_Operation,    !- Name
+    PlantEquipmentOperation:HeatingLoad,    !- Control Scheme 1 Object Type
+    Radiant_System_HW_Purchased_Only,    !- Control Scheme 1 Name
+    Sch_Plant;                !- Control Scheme 1 Schedule Name
+
+PlantEquipmentOperationSchemes,
+    DOAS_HW_PlantLoop_Operation,    !- Name
+    PlantEquipmentOperation:HeatingLoad,    !- Control Scheme 1 Object Type
+    DOAS_HW_Purchased_Only,    !- Control Scheme 1 Name
+    Sch_Plant;                !- Control Scheme 1 Schedule Name
+
+EnergyManagementSystem:Sensor,
+    OAT,                      !- Name
+    Environment,              !- OutputVariable or OutputMeter Index Key Name
+    Site Outdoor Air Drybulb Temperature;    !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Ctrl_Temperature,         !- Name
+    RAD_Zone,                 !- OutputVariable or OutputMeter Index Key Name
+    Zone Mean Air Temperature;    !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Srf_Temp,                 !- Name
+    RAD_zone_Zone_Floor,      !- OutputVariable or OutputMeter Index Key Name
+    Surface Inside Face Temperature;    !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    avg_window_n,             !- Name
+    Sch_Slab_Ctrl_Avg_Window_N,    !- OutputVariable or OutputMeter Index Key Name
+    Schedule Value;           !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Upper_Comfort_Limit,      !- Name
+    Sch_ClgSetP,              !- OutputVariable or OutputMeter Index Key Name
+    Schedule Value;           !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Lower_Comfort_Limit,      !- Name
+    Sch_HtgSetP,              !- OutputVariable or OutputMeter Index Key Name
+    Schedule Value;           !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Rad_Cool_Operation,       !- Name
+    RAD_Zone_Radiant_System_ChW_Inlet_Node,    !- OutputVariable or OutputMeter Index Key Name
+    System Node Mass Flow Rate;    !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Sensor,
+    Rad_Heat_Operation,       !- Name
+    RAD_Zone_Radiant_System_HW_Inlet_Node,    !- OutputVariable or OutputMeter Index Key Name
+    System Node Mass Flow Rate;    !- OutputVariable or OutputMeter Name
+
+EnergyManagementSystem:Actuator,
+    CMD_COLD_WATER_CTRL,      !- Name
+    Sch_Radiant_ClgSetP,      !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_HOT_WATER_CTRL,       !- Name
+    Sch_Radiant_HtgSetP,      !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_SLAB_CSP,             !- Name
+    Sch_Slab_CSP,             !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_SLAB_HSP,             !- Name
+    Sch_Slab_HSP,             !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_CSP_ERROR,            !- Name
+    Sch_CSP_Error,            !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_HSP_ERROR,            !- Name
+    Sch_HSP_Error,            !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_OAT_RUNNING_MEAN,     !- Name
+    Sch_Oat_Running_Mean,     !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:Actuator,
+    CMD_CTRL_TEMP_RUNNING_MEAN,    !- Name
+    Sch_Avg_Ctrl_Temp,        !- Actuated Component Unique Name
+    Schedule:Constant,        !- Actuated Component Type
+    Schedule Value;           !- Actuated Component Control Type
+
+EnergyManagementSystem:ProgramCallingManager,
+    Initialize Constant Parameters,    !- Name
+    BeginNewEnvironment,      !- EnergyPlus Model Calling Point
+    Set_Constant_Values;      !- Program Name 1
+
+EnergyManagementSystem:ProgramCallingManager,
+    Initialize Constant Parameters After Warmup,    !- Name
+    AfterNewEnvironmentWarmUpIsComplete,    !- EnergyPlus Model Calling Point
+    Set_Constant_Values;      !- Program Name 1
+
+EnergyManagementSystem:ProgramCallingManager,
+    Average Building Temperature,    !- Name
+    EndOfZoneTimestepAfterZoneReporting,    !- EnergyPlus Model Calling Point
+    Calculate_Errors_From_Comfort,    !- Program Name 1
+    Calculate_Neutral_Time,    !- Program Name 2
+    Determine_Bldg_Mode,      !- Program Name 3
+    Calculate_Trends,         !- Program Name 4
+    Calculate_Continuous_Radiant_Operation,    !- Program Name 5
+    Calculate_Cumulative_Sum;    !- Program Name 6
+
+EnergyManagementSystem:ProgramCallingManager,
+    Programs At Beginning of Timestep,    !- Name
+    BeginTimestepBeforePredictor,    !- EnergyPlus Model Calling Point
+    Determine_Weekend,        !- Program Name 1
+    Determine_Unoccupied,     !- Program Name 2
+    Implement_setback,        !- Program Name 3
+    Calculate_Cool_Ctrl_Setpoint,    !- Program Name 4
+    Calculate_Heat_Ctrl_Setpoint,    !- Program Name 5
+    Determine_Radiant_Operation;    !- Program Name 6
+
+EnergyManagementSystem:Program,
+    Set_Constant_Values,      !- Name
+    SET occ_hrS            = 8,    !- Program Line 1
+    SET occ_hrE            = 18,    !- Program Line 2
+    SET max_ctrl_temp      = Upper_Comfort_Limit,    !- Program Line 3
+    SET min_ctrl_temp      = Lower_Comfort_Limit,    !- Program Line 4
+    SET occ_duration       = occ_hrE - occ_hrS,    !- Program Line 5
+    SET unocc_duration     = 24 - occ_duration,    !- Program Line 6
+    SET cont_neutral_oper  = 0,    !- Program Line 7
+    SET bldg_mode          = 0,    !- Program Line 8
+    SET switch_over_time   = 24,    !- Program Line 9
+    SET CMD_CSP_ERROR      = 0,    !- Program Line 10
+    SET CMD_HSP_ERROR      = 0,    !- Program Line 11
+    SET CMD_SLAB_CSP       = 26,    !- Program Line 12
+    SET CMD_SLAB_HSP       = 22.3,    !- Program Line 13
+    SET prp_k              = 0.3,    !- Program Line 14
+    SET min_oper           = 1,    !- Program Line 15
+    SET cont_rad_oper      = 0,    !- Program Line 16
+    SET ctrl_temp_offset   = 0.5,    !- Program Line 17
+    SET wkend_temp_reset   = 2,    !- Program Line 18
+    SET early_reset_out    = 20,    !- Program Line 19
+    SET daily_cool_sum     = 0,    !- Program Line 20
+    SET daily_heat_sum     = 0,    !- Program Line 21
+    SET daily_cool_sum_one = 0,    !- Program Line 22
+    SET daily_heat_sum_one = 0;    !- Program Line 23
+
+EnergyManagementSystem:Program,
+    Calculate_Errors_From_Comfort,    !- Name
+    IF CurrentTime == occ_hrE,    !- Program Line 1
+    SET max_ctrl_temp = @TrendMax Ctrl_Temperature_Trend occ_duration/ZoneTimeStep,    !- Program Line 2
+    SET CMD_CSP_ERROR = (Upper_Comfort_Limit - ctrl_temp_offset) - max_ctrl_temp,    !- Program Line 3
+    SET min_ctrl_temp = @TrendMin Ctrl_Temperature_Trend occ_duration/ZoneTimeStep,    !- Program Line 4
+    SET CMD_HSP_ERROR = (Lower_Comfort_Limit + ctrl_temp_offset) - min_ctrl_temp,    !- Program Line 5
+    ENDIF;                    !- Program Line 6
+
+EnergyManagementSystem:Program,
+    Calculate_Trends,         !- Name
+    SET mean_oat                       = @TrendAverage OAT_Trend 24/ZoneTimeStep,    !- Program Line 1
+    SET mean_ctrl                      = @TrendAverage Srf_Temp_Trend 24/ZoneTimeStep,    !- Program Line 2
+    SET CMD_OAT_RUNNING_MEAN           = mean_oat + 0,    !- Program Line 3
+    SET CMD_CTRL_TEMP_RUNNING_MEAN     = mean_ctrl + 0;    !- Program Line 4
+
+EnergyManagementSystem:Program,
+    Calculate_Neutral_Time,    !- Name
+    IF (Rad_Cool_Operation > 0) || (Rad_Heat_Operation > 0),    !- Program Line 1
+    SET cont_neutral_oper = 0,    !- Program Line 2
+    ELSE,                     !- Program Line 3
+    SET cont_neutral_oper = cont_neutral_oper + ZoneTimeStep,    !- Program Line 4
+    ENDIF;                    !- Program Line 5
+
+EnergyManagementSystem:Program,
+    Calculate_Continuous_Radiant_Operation,    !- Name
+    IF (Rad_Cool_Operation > 0) || (Rad_Heat_Operation > 0),    !- Program Line 1
+    SET cont_rad_oper = cont_rad_oper + ZoneTimeStep,    !- Program Line 2
+    ELSE,                     !- Program Line 3
+    SET cont_rad_oper = 0,    !- Program Line 4
+    ENDIF;                    !- Program Line 5
+
+EnergyManagementSystem:Program,
+    Determine_Weekend,        !- Name
+    IF (DayOfWeek == 1) || (DayOfWeek == 7),    !- Program Line 1
+    SET weekend = 1,          !- Program Line 2
+    ELSEIF (DayOfWeek == 2) && (CurrentTime < occ_hrS),    !- Program Line 3
+    SET weekend = 1,          !- Program Line 4
+    ELSEIF (DayOfWeek == 6) && (CurrentTime > occ_hrE),    !- Program Line 5
+    SET weekend = 1,          !- Program Line 6
+    ELSE,                     !- Program Line 7
+    SET weekend = 0,          !- Program Line 8
+    ENDIF;                    !- Program Line 9
+
+EnergyManagementSystem:Program,
+    Determine_Unoccupied,     !- Name
+    IF (DayOfWeek == 1) || (DayOfWeek == 7),    !- Program Line 1
+    SET unoccupied = 0,       !- Program Line 2
+    ELSEIF (CurrentTime > occ_hrE) || (CurrentTime < occ_hrS),    !- Program Line 3
+    IF (DayOfWeek == 2) && (CurrentTime < occ_hrS),    !- Program Line 4
+    SET unoccupied = 0,       !- Program Line 5
+    ELSEIF (DayOfWeek == 6) && (CurrentTime > occ_hrE),    !- Program Line 6
+    SET unoccupied = 0,       !- Program Line 7
+    ELSE,                     !- Program Line 8
+    SET unoccupied = 1,       !- Program Line 9
+    ENDIF,                    !- Program Line 10
+    ELSE,                     !- Program Line 11
+    SET unoccupied = 0,       !- Program Line 12
+    ENDIF;                    !- Program Line 13
+
+EnergyManagementSystem:Program,
+    Determine_Bldg_Mode,      !- Name
+    SET cont_cool_oper = @TrendSum Rad_Cool_Operation_Trend 24/ZoneTimeStep,    !- Program Line 1
+    SET cont_heat_oper = @TrendSum Rad_Heat_Operation_Trend 24/ZoneTimeStep,    !- Program Line 2
+    IF (bldg_mode <> 0) && (cont_neutral_oper > switch_over_time),    !- Program Line 3
+    SET bldg_mode = 0,        !- Program Line 4
+    ELSEIF (cont_cool_oper > 0) && (bldg_mode == 0),    !- Program Line 5
+    SET bldg_mode = 1,        !- Program Line 6
+    ELSEIF (cont_heat_oper > 0) && (bldg_mode == 0),    !- Program Line 7
+    SET bldg_mode = -1,       !- Program Line 8
+    ELSE,                     !- Program Line 9
+    SET bldg_mode = bldg_mode,    !- Program Line 10
+    ENDIF;                    !- Program Line 11
+
+EnergyManagementSystem:Program,
+    Calculate_Cumulative_Sum,    !- Name
+    IF (CurrentTime == (occ_hrE - ZoneTimeStep)),    !- Program Line 1
+    SET daily_cool_sum_one = daily_cool_sum,    !- Program Line 2
+    SET daily_heat_sum_one = daily_heat_sum,    !- Program Line 3
+    SET daily_cool_sum = @TrendSum Rad_Cool_Operation_Trend 24/ZoneTimeStep,    !- Program Line 4
+    SET daily_heat_sum = @TrendSum Rad_Heat_Operation_Trend 24/ZoneTimeStep,    !- Program Line 5
+    ENDIF;                    !- Program Line 6
+
+EnergyManagementSystem:Program,
+    Calculate_Cool_Ctrl_Setpoint,    !- Name
+    IF (unoccupied == 1) && (weekend == 0),    !- Program Line 1
+    IF (daily_cool_sum_one > 0) || ((daily_heat_sum_one <= 0) && (CMD_CSP_ERROR < 0)),    !- Program Line 2
+    SET CMD_SLAB_CSP = CMD_SLAB_CSP + (CMD_CSP_ERROR*prp_k)/(unocc_duration/ZoneTimeStep),    !- Program Line 3
+    ENDIF,                    !- Program Line 4
+    ENDIF;                    !- Program Line 5
+
+EnergyManagementSystem:Program,
+    Calculate_Heat_Ctrl_Setpoint,    !- Name
+    IF (unoccupied == 1) && (weekend == 0),    !- Program Line 1
+    IF (daily_heat_sum_one > 0) || ((daily_cool_sum_one <= 0) && (CMD_HSP_ERROR > 0)),    !- Program Line 2
+    SET CMD_SLAB_HSP = CMD_SLAB_HSP + (CMD_HSP_ERROR*prp_k)/(unocc_duration/ZoneTimeStep),    !- Program Line 3
+    ENDIF,                    !- Program Line 4
+    ENDIF;                    !- Program Line 5
+
+EnergyManagementSystem:Program,
+    Implement_setback,        !- Name
+    IF early_reset_out > occ_hrS,    !- Program Line 1
+    SET turn_on_day = 1,      !- Program Line 2
+    SET turn_on_hour = 24 - (early_reset_out - occ_hrS),    !- Program Line 3
+    ELSE,                     !- Program Line 4
+    SET turn_on_day = 2,      !- Program Line 5
+    SET turn_on_hour = occ_hrS - early_reset_out,    !- Program Line 6
+    ENDIF,                    !- Program Line 7
+    IF (CurrentTime == occ_hrE) && (DayOfWeek == 6),    !- Program Line 8
+    SET CMD_SLAB_CSP = CMD_SLAB_CSP + wkend_temp_reset,    !- Program Line 9
+    SET CMD_SLAB_HSP = CMD_SLAB_HSP - wkend_temp_reset,    !- Program Line 10
+    ELSEIF (CurrentTime == turn_on_hour) && (DayOfWeek == turn_on_day),    !- Program Line 11
+    SET CMD_SLAB_CSP = CMD_SLAB_CSP - wkend_temp_reset,    !- Program Line 12
+    SET CMD_SLAB_HSP = CMD_SLAB_HSP + wkend_temp_reset,    !- Program Line 13
+    ENDIF;                    !- Program Line 14
+
+EnergyManagementSystem:Program,
+    Determine_Radiant_Operation,    !- Name
+    IF (CurrentEnvironment) == 2,    !- Program Line 1
+    IF (bldg_mode >= 0) && (Srf_Temp > CMD_SLAB_CSP),    !- Program Line 2
+    SET CMD_COLD_WATER_CTRL = 0,    !- Program Line 3
+    SET CMD_HOT_WATER_CTRL = -60,    !- Program Line 4
+    ELSEIF (bldg_mode >= 0) && (Srf_Temp < CMD_SLAB_CSP) && (min_oper > cont_rad_oper) && (cont_rad_oper <> 0),    !- Program Line 5
+    SET CMD_COLD_WATER_CTRL = 0,    !- Program Line 6
+    SET CMD_HOT_WATER_CTRL = -60,    !- Program Line 7
+    ELSEIF (bldg_mode <= 0) && (Srf_Temp < CMD_SLAB_HSP),    !- Program Line 8
+    SET CMD_COLD_WATER_CTRL = 100,    !- Program Line 9
+    SET CMD_HOT_WATER_CTRL = 60,    !- Program Line 10
+    ELSEIF (bldg_mode <= 0) && (Srf_Temp > CMD_SLAB_HSP) && (min_oper > cont_rad_oper) && (cont_rad_oper <> 0),    !- Program Line 11
+    SET CMD_COLD_WATER_CTRL = 100,    !- Program Line 12
+    SET CMD_HOT_WATER_CTRL = 60,    !- Program Line 13
+    ELSE,                     !- Program Line 14
+    SET CMD_COLD_WATER_CTRL = 60,    !- Program Line 15
+    SET CMD_HOT_WATER_CTRL = -60,    !- Program Line 16
+    ENDIF,                    !- Program Line 17
+    ELSE,                     !- Program Line 18
+    SET CMD_COLD_WATER_CTRL = 0,    !- Program Line 19
+    SET CMD_HOT_WATER_CTRL = -60,    !- Program Line 20
+    ENDIF;                    !- Program Line 21
+
+EnergyManagementSystem:GlobalVariable,
+    occ_hrS,                  !- Erl Variable 1 Name
+    occ_hrE,                  !- Erl Variable 2 Name
+    occ_duration,             !- Erl Variable 3 Name
+    unocc_duration,           !- Erl Variable 4 Name
+    max_ctrl_temp,            !- Erl Variable 5 Name
+    min_ctrl_temp,            !- Erl Variable 6 Name
+    ctrl_temp_offset,         !- Erl Variable 7 Name
+    prp_k,                    !- Erl Variable 8 Name
+    mean_oat,                 !- Erl Variable 9 Name
+    mean_ctrl,                !- Erl Variable 10 Name
+    cont_neutral_oper,        !- Erl Variable 11 Name
+    bldg_mode,                !- Erl Variable 12 Name
+    switch_over_time,         !- Erl Variable 13 Name
+    weekend,                  !- Erl Variable 14 Name
+    unoccupied,               !- Erl Variable 15 Name
+    min_oper,                 !- Erl Variable 16 Name
+    cont_rad_oper,            !- Erl Variable 17 Name
+    wkend_temp_reset,         !- Erl Variable 18 Name
+    early_reset_out,          !- Erl Variable 19 Name
+    daily_cool_sum,           !- Erl Variable 20 Name
+    daily_heat_sum,           !- Erl Variable 21 Name
+    daily_cool_sum_one,       !- Erl Variable 22 Name
+    daily_heat_sum_one;       !- Erl Variable 23 Name
+
+EnergyManagementSystem:OutputVariable,
+    Maximum occupied temperature in zone [C],    !- Name
+    max_ctrl_temp,            !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep,             !- Update Frequency
+    ,                         !- EMS Program or Subroutine Name
+    C;                        !- Units
+
+EnergyManagementSystem:OutputVariable,
+    Minimum occupied temperature in zone [C],    !- Name
+    min_ctrl_temp,            !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep,             !- Update Frequency
+    ,                         !- EMS Program or Subroutine Name
+    C;                        !- Units
+
+EnergyManagementSystem:OutputVariable,
+    Number of Hours in Neutral Operation,    !- Name
+    cont_neutral_oper,        !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Building Mode of Operation,    !- Name
+    bldg_mode,                !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Daily Building Cool Operation One,    !- Name
+    daily_cool_sum_one,       !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Daily Building Cool Operation,    !- Name
+    daily_cool_sum,           !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Daily Building Heat Operation One,    !- Name
+    daily_heat_sum_one,       !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Daily Building Heat Operation,    !- Name
+    daily_heat_sum,           !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Current Environment,      !- Name
+    CurrentEnvironment,       !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:OutputVariable,
+    Warmup Flag,              !- Name
+    WarmupFlag,               !- EMS Variable Name
+    Averaged,                 !- Type of Data in Variable
+    ZoneTimeStep;             !- Update Frequency
+
+EnergyManagementSystem:TrendVariable,
+    OAT_Trend,                !- Name
+    OAT,                      !- EMS Variable Name
+    96;                       !- Number of Timesteps to be Logged
+
+EnergyManagementSystem:TrendVariable,
+    Srf_Temp_Trend,           !- Name
+    Srf_Temp,                 !- EMS Variable Name
+    96;                       !- Number of Timesteps to be Logged
+
+EnergyManagementSystem:TrendVariable,
+    Ctrl_Temperature_Trend,    !- Name
+    Ctrl_Temperature,         !- EMS Variable Name
+    96;                       !- Number of Timesteps to be Logged
+
+EnergyManagementSystem:TrendVariable,
+    Rad_Cool_Operation_Trend,    !- Name
+    Rad_Cool_Operation,       !- EMS Variable Name
+    96;                       !- Number of Timesteps to be Logged
+
+EnergyManagementSystem:TrendVariable,
+    Rad_Heat_Operation_Trend,    !- Name
+    Rad_Heat_Operation,       !- EMS Variable Name
+    96;                       !- Number of Timesteps to be Logged
+
+AvailabilityManager:Scheduled,
+    OA_System_OA_Availability_Manager,    !- Name
+    Sch_HVAC;                 !- Schedule Name
+
+AvailabilityManagerAssignmentList,
+    OA_System_OA_Availability_list,    !- Name
+    AvailabilityManager:Scheduled,    !- Availability Manager 1 Object Type
+    OA_System_OA_Availability_Manager;    !- Availability Manager 1 Name
+
+SetpointManager:Scheduled,
+    Radiant_System_ChW_PlantLoop_Setpoint_Manager,    !- Name
+    Temperature,              !- Control Variable
+    Sch_ChW_MainLoop_Temp,    !- Schedule Name
+    Radiant_System_ChW_PlantLoop_Node_list;    !- Setpoint Node or NodeList Name
+
+SetpointManager:Scheduled,
+    Radiant_System_HW_PlantLoop_Setpoint_Manager,    !- Name
+    Temperature,              !- Control Variable
+    Sch_HW_MainLoop_Temp,     !- Schedule Name
+    Radiant_System_HW_PlantLoop_Node_list;    !- Setpoint Node or NodeList Name
+
+SetpointManager:Scheduled,
+    DOAS_HW_PlantLoop_Setpoint_Manager,    !- Name
+    Temperature,              !- Control Variable
+    Sch_HW_MainLoop_Temp,     !- Schedule Name
+    DOAS_HW_PlantLoop_Node_list;    !- Setpoint Node or NodeList Name
+
+SETPOINTMANAGER:SCHEDULED,
+    DOAS_Heating_Supply_Air_Temp_Manager,    !- Name
+    Temperature,              !- Control Variable
+    Sch_AirLoop_SAT_Heat,     !- Schedule Name
+    DOAS_Heating_Setpoint_Nodes;    !- Setpoint Node or NodeList Name
+
+SETPOINTMANAGER:SCHEDULED,
+    DOAS_Cooling_Supply_Air_Temp_Manager,    !- Name
+    Temperature,              !- Control Variable
+    Sch_AirLoop_SAT_Cool,     !- Schedule Name
+    DOAS_Cooling_Setpoint_Nodes;    !- Setpoint Node or NodeList Name
+
+SetpointManager:Scheduled,
+    DOAS_Supply_Air_Humidity_Manager,    !- Name
+    MaximumHumidityRatio,     !- Control Variable
+    Sch_AirLoop_SAT_Max_huRatio,    !- Schedule Name
+    DOAS_Cooling_Setpoint_Nodes;    !- Setpoint Node or NodeList Name
+
+CURVE:QUADRATIC,
+    DOAS_DX_Coil_Cap_FF,      !- Name
+    0.8,                      !- Coefficient1 Constant
+    0.2,                      !- Coefficient2 x
+    0.0,                      !- Coefficient3 x2
+    0.5,                      !- Minimum Value of x
+    1.5,                      !- Maximum Value of x
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless;            !- Output Unit Type
+
+CURVE:QUADRATIC,
+    DOAS_DX_Coil_EIR_FF,      !- Name
+    1.1552,                   !- Coefficient1 Constant
+    -0.1808,                  !- Coefficient2 x
+    0.0256,                   !- Coefficient3 x2
+    0.5,                      !- Minimum Value of x
+    1.5,                      !- Maximum Value of x
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless;            !- Output Unit Type
+
+Curve:Quadratic,
+    DOAS_DX_Coil_PLF,         !- Name
+    0.85,                     !- Coefficient1 Constant
+    0.15,                     !- Coefficient2 x
+    0.0,                      !- Coefficient3 x2
+    0.0,                      !- Minimum Value of x
+    1.0,                      !- Maximum Value of x
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless;            !- Output Unit Type
+
+CURVE:BIQUADRATIC,
+    DOAS_DX_Coil_Std_Cap_FT,    !- Name
+    1.067939449,              !- Coefficient1 Constant
+    -0.031261829,             !- Coefficient2 x
+    0.001974308,              !- Coefficient3 x2
+    -0.002726426,             !- Coefficient4 y
+    -5.52654e-05,             !- Coefficient5 y2
+    -6.31169e-05,             !- Coefficient6 xy
+    -100.0,                   !- Minimum Value of x
+    100.0,                    !- Maximum Value of x
+    -100.0,                   !- Minimum Value of y
+    100.0,                    !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless,            !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+CURVE:BIQUADRATIC,
+    DOAS_DX_Coil_Dehum_Cap_FT,    !- Name
+    0.596779741,              !- Coefficient1 Constant
+    0.034216637,              !- Coefficient2 x
+    0.000113924,              !- Coefficient3 x2
+    -0.00375859,              !- Coefficient4 y
+    -9.17495e-05,             !- Coefficient5 y2
+    -8.98373e-05,             !- Coefficient6 xy
+    -100.0,                   !- Minimum Value of x
+    100.0,                    !- Maximum Value of x
+    -100.0,                   !- Minimum Value of y
+    100.0,                    !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless,            !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+CURVE:BIQUADRATIC,
+    DOAS_DX_Coil_Std_EIR_FT,    !- Name
+    0.174059889,              !- Coefficient1 Constant
+    0.022281508,              !- Coefficient2 x
+    -0.000134077,             !- Coefficient3 x2
+    0.028298025,              !- Coefficient4 y
+    0.0004851,                !- Coefficient5 y2
+    -0.001677095,             !- Coefficient6 xy
+    -100.0,                   !- Minimum Value of x
+    100.0,                    !- Maximum Value of x
+    -100.0,                   !- Minimum Value of y
+    100.0,                    !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless,            !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+Curve:Biquadratic,
+    DOAS_DX_Coil_Dehum_EIR_FT,    !- Name
+    0.435347586,              !- Coefficient1 Constant
+    0.004015641,              !- Coefficient2 x
+    0.000604235,              !- Coefficient3 x2
+    0.015824043,              !- Coefficient4 y
+    0.000747287,              !- Coefficient5 y2
+    -0.001779745,             !- Coefficient6 xy
+    -100.0,                   !- Minimum Value of x
+    100.0,                    !- Maximum Value of x
+    -100.0,                   !- Minimum Value of y
+    100.0,                    !- Maximum Value of y
+    ,                         !- Minimum Curve Output
+    ,                         !- Maximum Curve Output
+    Dimensionless,            !- Input Unit Type for X
+    Dimensionless,            !- Input Unit Type for Y
+    Dimensionless;            !- Output Unit Type
+
+Output:Variabledictionary,
+    IDF;                      !- Key Field
+
+Output:Surfaces:List,
+    Details;                  !- Report Type
+
+Output:Surfaces:Drawing,
+    dxf,                      !- Report Type
+    Triangulate3DFace;        !- Report Specifications 1
+
+Output:Constructions,
+    Constructions;            !- Details Type 1
+
+Output:EnergyManagementSystem,
+    None,                     !- Actuator Availability Dictionary Reporting
+    None,                     !- Internal Variable Availability Dictionary Reporting
+    ErrorsOnly;               !- EMS Runtime Language Debug Output Level
+
+Output:Table:Summaryreports,
+    AllSummary,               !- Report 1 Name
+    AllMonthly;               !- Report 2 Name
+
+Outputcontrol:Table:Style,
+    CommaAndHTML,             !- Column Separator
+    JtoKWH;                   !- Unit Conversion
+
+Output:Variable,
+    *,                        !- Key Value
+    Current Environment,      !- Variable Name
+    Hourly;                   !- Reporting Frequency
+
+Output:Variable,
+    *,                        !- Key Value
+    Warmup Flag,              !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Maximum Available Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Convection Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermal Comfort Fanger Model PPD,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermostat Cooling Setpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Electric Equipment Latent Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Infiltration Sensible Heat Gain Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Convection Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    District Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Cooling Coil Sensible Cooling Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Exterior Windows Incident Beam Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Opaque Surface Inside Face Conduction,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Electric Equipment Total Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Cooling Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Window Transmitted Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Exterior Windows Total Transmitted Beam Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Day Type Index,      !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Outdoor Air Drybulb Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mean Air Dewpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Windows Total Transmitted Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermal Comfort Operative Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mean Air Humidity Ratio,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Solar Radiation Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Cooling Coil Runtime Fraction,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Total Internal Total Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Dewpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Lights Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_Zone,                 !- Key Value
+    Zone Mean Air Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Sensible Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    HC_Air_Outlet,            !- Key Value
+    System Node Current Density Volume Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Window Shortwave from Zone Back Out Window Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Air System Sensible Cooling Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Relative Humidity,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Setpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Average Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Solar Radiation Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Exterior_South_Wall,    !- Key Value
+    Surface Inside Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Facility Total Purchased Electric Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Occupant Count,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Slab_HSP,             !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Facility Total Building Electric Demand Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Floor_3D_Model_CorenW_Temp,    !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Facility Total Purchased Electric Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Slab_Ctrl_Avg_Window_N,    !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Solar Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    District Heating Chilled Water Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Net Thermal Radiation Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mechanical Ventilation Cooling Load Increase Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Current Density Volume Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Outdoor Air Relative Humidity,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Air System Total Cooling Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Internal Source Location Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Air Heat Balance Surface Convection Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Rad_Return_Water_Temp,    !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_HtgSetP,              !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Electric Equipment Radiant Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_Zone_Radiant_System_ChW_Inlet_Node,    !- Key Value
+    System Node Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    District Cooling Chilled Water Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Cooling Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Operative Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Lights Convective Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Window Transmitted Diffuse Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Solar Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_ClgSetP,              !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Fan Electric Power,       !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mean Air Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Convective Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermal Comfort Fanger Model PMV,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Heating Coil Air Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Radiant_Water_Flow,    !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Floor_3D_Model_Core_Temp,    !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Setpoint Minimum Humidity Ratio,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Net Surface Thermal Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Direct Solar Radiation Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Lights Electric Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Exterior Windows Total Transmitted Diffuse Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Air System Sensible Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    HC_Water_Inlet,           !- Key Value
+    System Node Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Exterior_South_Wall_Window_1,    !- Key Value
+    Surface Window Inside Face Glazing Zone Convection Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    HC_Air_Outlet,            !- Key Value
+    System Node Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Setpoint Humidity Ratio,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Lights Radiant Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Requested Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Maximum Limit Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Inside Face Internal Gains Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_Zone_Radiant_System_ChW_Inlet_Node,    !- Key Value
+    System Node Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Lights Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Setpoint Maximum Humidity Ratio,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Outdoor Air Humidity Ratio,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Minimum Limit Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Outlet Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Diffuse Solar Radiation Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Cooling Coil Total Cooling Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Chiller Electric Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Chiller Electric Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_OAT_Running_Mean,     !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Setpoint Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Inlet Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Convection Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Opaque Surface Outside Face Conduction,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mechanical Ventilation Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    District Cooling Chilled Water Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Facility Total HVAC Electric Demand Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Convection Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    System Node Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Ceiling,    !- Key Value
+    Surface Internal Source Location Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Avg_Ctrl_Temp,        !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Electric Equipment Convective Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Radiant Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Air Relative Humidity,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Heat Storage Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermostat Heating Setpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Heating Coil Runtime Fraction,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    ChWCoilInlet,             !- Key Value
+    System Node Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Window Inside Face Glazing Zone Convection Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Thermal Comfort Clothing Value,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Electric Equipment Electric Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Infiltration Mass Flow Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Windows Total Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Moisture Condensation Time,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Outdoor Air Wetbulb Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Internal Source Location Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Lights Total Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Latent Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Radiant HVAC Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Net Surface Thermal Radiation Heat Gain Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Net Surface Thermal Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Internal Gains Radiation Heat Gain Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Inside Face Exterior Windows Incident Beam Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone People Total Heating Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Windows Total Heat Loss Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Slab_CSP,             !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    RAD_zone_Zone_Floor,      !- Key Value
+    Surface Inside Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Window Transmitted Beam Solar Radiation Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Site Outdoor Air Dewpoint Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Mean Radiant Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    HC_Air_Outlet,            !- Key Value
+    System Node Temperature,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Infiltration Total Heat Gain Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_CSP_Error,            !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Incident Solar Radiation Rate per Area,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Facility Total Electric Demand Power,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Surface Outside Face Conduction Heat Transfer Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    Zone Air System Sensible Cooling Energy,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    Sch_Clg_Throt_Range,      !- Key Value
+    Schedule Value,           !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+OUTPUT:VARIABLE,
+    *,                        !- Key Value
+    District Cooling Rate,    !- Variable Name
+    hourly;                   !- Reporting Frequency
+
+Output:Diagnostics,
+    DisplayAdvancedReportVariables;    !- Key 1
+
+Output:Diagnostics,
+    DisplayUnusedSchedules;    !- Key 1
+
+Output:Diagnostics,
+    DisplayExtraWarnings;     !- Key 1
