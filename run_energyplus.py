@@ -319,3 +319,25 @@ def run_rveso(esos, vrs, outfolder, EP='EnergyPlusV8-4-0', prefix=None, pool_map
         pool.map(unpack_run_rveso, ((eso, vrs, outfolder, EP, prefix) for eso in esos))
         pool.close()
         pool.join()
+
+ 
+def get_file(folder, keyterm, extension):
+    """
+    This function returns file(s) based on keyterm and extension
+    :param folder: path to folder where to search keyterm in
+    :param keyterm: term used to identify a particular file
+    :param extension: extension of files to search keyterms
+    :return: Returns file(s) based on keyterm
+    """
+    find_term = re.compile(keyterm.lower())
+    files = glob.glob(join(folder, '*.' + extension))
+    hits = [i for i, l in enumerate(files) for m in [find_term.search(l.lower())] if m]
+
+    if len(hits) == 0:
+        print('No files with search term: {} found in folder {}!'.format(keyterm, folder))
+        f = None
+        import pdb; pdb.set_trace()
+    else:
+        f = files[hits[0]]
+
+    return f
