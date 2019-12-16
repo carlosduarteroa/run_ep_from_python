@@ -13,6 +13,7 @@ import os
 import numpy as np
 import multiprocessing as mp
 import subprocess
+import re, glob, time
 
 
 def save_sim_paths(idffiles, weatherfiles, sim_folder):
