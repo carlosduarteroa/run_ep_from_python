@@ -13,7 +13,9 @@ import os
 import numpy as np
 import multiprocessing as mp
 import subprocess
-import re, glob, time
+import re, glob, shutil
+import time
+import uuid
 
 
 def save_sim_paths(idffiles, weatherfiles, sim_folder):
@@ -86,8 +88,147 @@ def time_progress(tlt_files, processed_files, str_time, **kwargs):
         seconds_left = seconds % 60
         print("\n\n-----The is {:d} files left to process----\n".format(files_left))
         print("-----There is approximately {:.0f} hours, {:.0f} minutes, {:.0f} seconds left for processing to finish-----\n\n".format(hours_left, minutes_left, seconds_left))
-        
-        
+
+def make_folder(new_folder_path):
+    """ Checks and makes new folder if it does not exist
+    """
+    if not os.path.exists(new_folder_path):
+        os.makedirs(new_folder_path)
+
+def run_ep_pre(idffiles, weatherfiles, EP='EnergyPlusV9-0-1', outfolder=None, idffolder=None, required_sim_files=None,
+               mp_cores=None, rveso_col_max=250):
+    """This function runs the EnergyPlus dot Bat file. Good to run all preprocessing
+    functions
+    """
+    # identify the type of computer you are working with (pc or mac)
+    if os.name == 'nt':
+        EPexe = join("C:\\", EP, "Epl-run.bat")
+    elif os.name == 'posix':
+        EP = EP.replace('V', '-')
+        EPexe = join('/usr/local', EP, 'energyplus')
+    else:
+        raise NotImplementedError("OS not supported")
+
+    # check number of cpus in computer
+    if mp_cores is None:
+        core_num = mp.cpu_count()
+        if core_num == 1:
+            max_jobs = 1
+        else:
+            max_jobs = core_num - 1
+    else:
+        core_num = int(mp_cores)
+
+    # check inputs to make sure they are iterable
+    if not isinstance(idffiles, (list, tuple)):
+        idffiles = [idffiles]
+
+    # check that idffile is a list
+    if not isinstance(weatherfiles, (list, tuple)):
+        weatherfiles = [weatherfiles]
+
+    # change integer to a string
+    if not isinstance(rveso_col_max, str):
+        rveso_col_max = str(rveso_col_max)
+
+    # save current project folder and get abolute paths for outfolder, idfs, and weather file
+    project_folder = os.getcwd()
+    weather_files = [os.path.abspath(wea) for wea in weatherfiles]
+
+    if idffolder is None:
+        idf_files_in = [os.path.abspath(fi) if not os.path.isabs(fi) else fi for fi in idffiles]
+    else:
+        idf_files_in = [os.path.abspath(join(idffolder, os.path.basename(fi))) for fi in idffiles]
+
+    idf_folder = [os.path.dirname(fi) for fi in idf_files_in]
+
+    # define output folders
+    if outfolder is None:
+        out_folder = os.path.abspath(idf_folder[0])
+        tmp_folder = os.path.abspath(join(out_folder, 'tmp_folder'))
+    else:
+        out_folder = os.path.abspath(outfolder)
+        tmp_folder = os.path.abspath(join(out_folder, 'tmp_folder'))
+
+    make_folder(tmp_folder)
+
+    # copy idfs to output_idfs and make own folder
+    tmp_folder_names = [str(uuid.uuid1()) for _ in range(len(idf_files_in))]
+    [make_folder(join(tmp_folder, tp)) for tp in tmp_folder_names]
+    tmp_idf_loc = [shutil.copy2(fi, join(tmp_folder, tp, os.path.basename(fi))) for fi, tp in zip(idf_files_in, tmp_folder_names)]
+
+    # copy required simulation files to new directories
+    if required_sim_files is not None:
+        if not isinstance(required_sim_files, (list, tuple)):
+            required_sim_files = [required_sim_files]
+
+        req_sim_files = [join(idf_folder[0], rfi) if not os.path.isabs(rfi) else rfi for rfi in required_sim_files]
+        tmp_req_files = [shutil.copy2(rfi, os.path.dirname(fi)) for rfi in req_sim_files for fi in tmp_idf_loc]
+
+    orig_idf_loc = idf_files_in
+    idf_files_in = tmp_idf_loc
+
+    # set up parallel progress report
+    jobs = set()
+    ii = 0
+    start_time = time.time()
+    last_eta = time.time()
+
+    for i, (fi, wea) in enumerate(zip(idf_files_in, weather_files)):
+        idf_dir = os.path.dirname(fi)
+        idf_noext = fi.split('.idf')[:-1][0]
+
+        idf_out = os.path.abspath(join(out_folder, os.path.basename(idf_noext)))
+
+        we = wea.split('.epw')[:-1][0]
+        we_bn_noext = os.path.basename(we)
+
+        # change idf directory
+        if project_folder != idf_dir:
+            os.chdir(idf_dir)
+
+        idf_cmd = [EPexe, 
+                  idf_noext,            # full idf path with no extension
+                  idf_out,              # full output idf path with no extension
+                  'idf',                # extension of file idf or imf
+                  wea,                   # full path to weather file 
+                  'EP',                 # to indicate if weather file is used
+                  'N',                  # should pausing occur
+                  rveso_col_max,        # number of columns to print for rv eso
+                  'N',
+                  'N'
+                  ]
+
+        # run simulations
+        jobs.add(subprocess.Popen(idf_cmd))  # run simulations
+
+        # add more runs as simulation are completing
+        if len(jobs) >= max_jobs:
+            [p.wait() for p in jobs]
+            jobs.difference_update(
+                [p for p in jobs if p.poll() is not None]
+            )
+
+        # change back to project folder if you need too
+        if project_folder != idf_dir:
+            os.chdir(project_folder)
+
+        # # give status of models to perform every x simulations
+        ii += 1
+        time_progress(len(idf_files_in), ii, start_time)
+
+    # check if all child jobs were closed
+    for p in jobs:
+        if p.poll() is None:
+            p.wait()
+
+    # remove tmp folder
+    shutil.rmtree(tmp_folder)
+
+    # print final progress
+    print('\n\n-----Processed ' + str(len(idf_files_in)) + ' simulation files.-----\n\n')
+
+
 def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', args=None):
     """ This function runs simulation for input idf files; runs in parallel if more than 1 file
     
@@ -342,3 +483,18 @@ def get_file(folder, keyterm, extension):
         f = files[hits[0]]
 
     return f
+
+if __name__ == '__main__':
+
+    # single file example
+    one_idf = "F:/test_sims_ep/SF_Minnesota_Duluth.Intl.AP.727450_hp_slab_IECC_2006_Occupancy1_SP1_Thermostat5.idf"
+    one_weather = "C:/EnergyPlusV9-1-0/WeatherData/USA_AK_Fairbanks.Intl.AP.702610_TMY3.epw"
+    run_ep_pre(one_idf, one_weather, EP='EnergyPlusV9-0-1')
+
+    import pdb; pdb.set_trace()
+    # multi file example
+    idffiles = glob.glob(join('F:/test_sims/*.idf'))
+    weatherfiles = [one_weather]*len(idffiles)
+    run_ep_pre(idffiles, weatherfiles, EP='EnergyPlusV9-0-1', outfolder= "F:/Test_new_folder", required_sim_files= "./schedules_all.csv")
+    import pdb; pdb.set_trace()
+
