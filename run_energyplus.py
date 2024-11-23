@@ -16,6 +16,8 @@ import subprocess
 import re, glob, shutil
 import time
 import uuid
+import collections.abc
+import six
 
 
 def save_sim_paths(idffiles, weatherfiles, sim_folder):
@@ -104,7 +106,7 @@ def run_ep_pre(idffiles, weatherfiles, EP='EnergyPlusV9-0-1', outfolder=None, id
     if os.name == 'nt':
         EPexe = join("C:\\", EP, "Epl-run.bat")
     elif os.name == 'posix':
-        EP = EP.replace('V', '-')
+        EP = EP.replace('V', '-').replace('.', '-')
         EPexe = join('/usr/local', EP, 'energyplus')
     else:
         raise NotImplementedError("OS not supported")
@@ -120,11 +122,15 @@ def run_ep_pre(idffiles, weatherfiles, EP='EnergyPlusV9-0-1', outfolder=None, id
         core_num = int(mp_cores)
 
     # check inputs to make sure they are iterable
-    if not isinstance(idffiles, (list, tuple)):
+    if not isinstance(idffiles, collections.abc.Iterable) and not isinstance(idffiles, six.string_types):
+        idffiles = [idffiles]
+    elif isinstance(idffiles, six.string_types):
         idffiles = [idffiles]
 
     # check that idffile is a list
-    if not isinstance(weatherfiles, (list, tuple)):
+    if not isinstance(weatherfiles, collections.abc.Iterable) and not isinstance(weatherfiles, six.string_types):
+        weatherfiles = [weatherfiles]
+    elif isinstance(weatherfiles, six.string_types):
         weatherfiles = [weatherfiles]
 
     # change integer to a string
@@ -229,7 +235,7 @@ def run_ep_pre(idffiles, weatherfiles, EP='EnergyPlusV9-0-1', outfolder=None, id
     print('\n\n-----Processed ' + str(len(idf_files_in)) + ' simulation files.-----\n\n')
 
 
-def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', args=None):
+def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', save_paths=False, args=None):
     """ This function runs simulation for input idf files; runs in parallel if more than 1 file
     
     Parameters
@@ -253,13 +259,14 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
     Simulated results to outfolder
     """
     # save idf and weather file paths in a numpy array
-    save_sim_paths(idffiles, weatherfiles, outfolder)
+    if save_paths:
+        save_sim_paths(idffiles, weatherfiles, outfolder)
 
     # identify the type of computer you are working with (pc or mac)
     if os.name == 'nt':
         EPexe = join("C:\\", EP, "energyplus.exe")
     elif os.name == 'posix':
-        EP = EP.replace('V', '-')
+        EP = EP.replace('V', '-').replace('.', '-')
         EPexe = join('/usr/local', EP, 'energyplus')
     else:
         raise NotImplementedError("OS not supported")
@@ -272,13 +279,22 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
         max_jobs = core_num - 1
 
     # check that idffiles and outfolder are lists
-    if not isinstance(outfolder, list):
-        outfolder = [outfolder]
-
-    if not isinstance(idffiles, list):
+    if not isinstance(idffiles, collections.abc.Iterable) and not isinstance(idffiles, six.string_types):
+        idffiles = [idffiles]
+    elif isinstance(idffiles, six.string_types):
         idffiles = [idffiles]
 
-    # save current project folder and get abolute paths for outfolder, idfs, and weather file
+    if not isinstance(weatherfiles, collections.abc.Iterable) and not isinstance(weatherfiles, six.string_types):
+        weatherfiles = [weatherfiles]
+    elif isinstance(weatherfiles, six.string_types):
+        weatherfiles = [weatherfiles]
+
+    if not isinstance(outfolder, collections.abc.Iterable) and not isinstance(outfolder, six.string_types):
+        outfolder = [outfolder]
+    elif isinstance(outfolder, six.string_types):
+        outfolder = [outfolder]
+
+    # save current project folder and get absolute paths for outfolder, idfs, and weather file
     project_folder = os.getcwd()
     idffiles = [os.path.abspath(fi) for fi in idffiles]
     weatherfiles = [os.path.abspath(we) for we in weatherfiles]
@@ -393,7 +409,7 @@ def one_run_rveso(eso, vrs, outfolder, EP='EnergyPlusV8-4-0', prefix=None, runal
     if os.name == 'nt':
         RVIexe = join("C:\\", EP, "PostProcess\\ReadVarsESO.exe")
     elif os.name == 'posix':
-        EP = EP.replace('V', '-')
+        EP = EP.replace('V', '-').replace('.', '-')
         RVIexe = join('/usr/local', EP, 'PostProcess/ReadVarsESO')
     else:
         raise NotImplementedError("OS not supported")
