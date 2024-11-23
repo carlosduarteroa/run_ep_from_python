@@ -271,11 +271,25 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
     else:
         max_jobs = core_num - 1
 
+    # check that idffiles and outfolder are lists
+    if not isinstance(outfolder, list):
+        outfolder = [outfolder]
+
+    if not isinstance(idffiles, list):
+        idffiles = [idffiles]
+
     # save current project folder and get abolute paths for outfolder, idfs, and weather file
     project_folder = os.getcwd()
-    outfolder = os.path.abspath(outfolder)
     idffiles = [os.path.abspath(fi) for fi in idffiles]
     weatherfiles = [os.path.abspath(we) for we in weatherfiles]
+
+    # input the same outfolder for all simulations if only 1 defined
+    if len(outfolder) == 1 and len(idffiles) > 1:
+        outfolders = [os.path.abspath(outfolder[0]) for _ in idffiles]
+    elif len(outfolder) > 1:
+        outfolders = [os.path.abspath(outf) for outf in outfolder]
+    else:
+        outfolders = os.path.abspath(outfolder[0])
 
     jobs = set()
 
@@ -290,7 +304,7 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
 
         idfCmd = [EPexe,
                   '-w', we,                                 # define weather file
-                  '-d', outfolder,                          # define output folder
+                  '-d', outfolders,                          # define output folder
                   '-p', os.path.basename(filename_noext),   # define output prefix
                   '-s', 'C',                                # define output suffix type
                   idffiles[0]]                              # define input idf
@@ -309,7 +323,7 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
         ii = 0
         start_time = time.time()
         last_eta = time.time()
-        for fi, we in zip(idffiles, weatherfiles):
+        for fi, we, outf in zip(idffiles, weatherfiles, outfolders):
             idf_dir = os.path.dirname(fi)
             filename_noext = fi.split('.idf')[:-1][0]
 
@@ -319,7 +333,7 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
 
             idfCmd = [EPexe,
                       '-w', we,                # define weather file
-                      '-d', outfolder,         # define output folder
+                      '-d', outf,         # define output folder
                       '-p', os.path.basename(filename_noext),   # define output prefix
                       '-s', 'C',                                # define output suffix type
                       os.path.abspath(fi)]                      # define input idf
