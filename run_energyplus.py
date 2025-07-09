@@ -297,7 +297,14 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
     # save current project folder and get absolute paths for outfolder, idfs, and weather file
     project_folder = os.getcwd()
     idffiles = [os.path.abspath(fi) for fi in idffiles]
-    weatherfiles = [os.path.abspath(we) for we in weatherfiles]
+
+    # input the same weather file for all simulation if only 1 is defined
+    if len(weatherfiles) == 1 and len(idffiles) > 1:
+        weatherfiles = [os.path.abspath(weatherfiles[0]) for _ in idffiles]
+    elif len(weatherfiles) > 1:
+        weatherfiles = [os.path.abspath(outf) for outf in weatherfiles]
+    else:
+        weatherfiles = [os.path.abspath(weatherfiles[0])]
 
     # input the same outfolder for all simulations if only 1 defined
     if len(outfolder) == 1 and len(idffiles) > 1:
@@ -305,7 +312,7 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
     elif len(outfolder) > 1:
         outfolders = [os.path.abspath(outf) for outf in outfolder]
     else:
-        outfolders = os.path.abspath(outfolder[0])
+        outfolders = [os.path.abspath(outfolder[0])]
 
     jobs = set()
 
@@ -320,7 +327,7 @@ def run_ep(idffiles, weatherfiles, outfolder, FMU=False, EP='EnergyPlusV8-4-0', 
 
         idfCmd = [EPexe,
                   '-w', we,                                 # define weather file
-                  '-d', outfolders,                          # define output folder
+                  '-d', outfolders[0],                          # define output folder
                   '-p', os.path.basename(filename_noext),   # define output prefix
                   '-s', 'C',                                # define output suffix type
                   idffiles[0]]                              # define input idf
